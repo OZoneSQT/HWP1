@@ -186,9 +186,9 @@ int main(void)
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 106:	2f e9       	ldi	r18, 0x9F	; 159
- 108:	86 e8       	ldi	r24, 0x86	; 134
- 10a:	91 e0       	ldi	r25, 0x01	; 1
+ 106:	2f ef       	ldi	r18, 0xFF	; 255
+ 108:	89 e6       	ldi	r24, 0x69	; 105
+ 10a:	98 e1       	ldi	r25, 0x18	; 24
  10c:	21 50       	subi	r18, 0x01	; 1
  10e:	80 40       	sbci	r24, 0x00	; 0
  110:	90 40       	sbci	r25, 0x00	; 0
@@ -201,9 +201,9 @@ int main(void)
 		PORTB &= (0 << PB7);	// Sets pin low
  118:	85 b1       	in	r24, 0x05	; 5
  11a:	15 b8       	out	0x05, r1	; 5
- 11c:	2f e9       	ldi	r18, 0x9F	; 159
- 11e:	86 e8       	ldi	r24, 0x86	; 134
- 120:	91 e0       	ldi	r25, 0x01	; 1
+ 11c:	2f ef       	ldi	r18, 0xFF	; 255
+ 11e:	89 e6       	ldi	r24, 0x69	; 105
+ 120:	98 e1       	ldi	r25, 0x18	; 24
  122:	21 50       	subi	r18, 0x01	; 1
  124:	80 40       	sbci	r24, 0x00	; 0
  126:	90 40       	sbci	r25, 0x00	; 0
