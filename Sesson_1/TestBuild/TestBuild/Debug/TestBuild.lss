@@ -187,15 +187,15 @@ int main(void)
 
 	__builtin_avr_delay_cycles(__ticks_dc);
  106:	2f ef       	ldi	r18, 0xFF	; 255
- 108:	89 e6       	ldi	r24, 0x69	; 105
- 10a:	98 e1       	ldi	r25, 0x18	; 24
+ 108:	83 ed       	ldi	r24, 0xD3	; 211
+ 10a:	90 e3       	ldi	r25, 0x30	; 48
  10c:	21 50       	subi	r18, 0x01	; 1
  10e:	80 40       	sbci	r24, 0x00	; 0
  110:	90 40       	sbci	r25, 0x00	; 0
  112:	e1 f7       	brne	.-8      	; 0x10c <main+0x12>
  114:	00 c0       	rjmp	.+0      	; 0x116 <main+0x1c>
  116:	00 00       	nop
-		_delay_ms(500);
+		_delay_ms(1000);
 		
 		// PORTB &= ~(1 << PB7);	// Sets pin low
 		PORTB &= (0 << PB7);	// Sets pin low

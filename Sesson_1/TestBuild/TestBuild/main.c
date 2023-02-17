@@ -18,7 +18,7 @@ int main(void)
     {
 		
 		PORTB |= (1 << PB7);	// Sets pin high
-		_delay_ms(500);
+		_delay_ms(1000);
 		
 		// PORTB &= ~(1 << PB7);	// Sets pin low
 		PORTB &= (0 << PB7);	// Sets pin low
