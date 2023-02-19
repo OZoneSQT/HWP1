@@ -5,8 +5,7 @@
  * Author: Michel Sommer, 273966
  */ 
 
-#ifndef KEYS_H_
-#define KEYS_H_
+#pragma once
 
 #include <avr/io.h>
 
@@ -20,6 +19,3 @@ void init_keys();
 /* Allowed keys: PC0-PC5                                                */
 /************************************************************************/
 uint8_t get_key(uint8_t key_no); 
-
-
-#endif /* KEYS_H_ */

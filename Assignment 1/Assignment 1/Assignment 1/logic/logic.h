@@ -5,8 +5,7 @@
  * Author: Michel Sommer, 273966
  */ 
 
-#ifndef LOGIC_H_
-#define LOGIC_H_
+#pragma once
 
 #include <avr/io.h>
 #include <stdbool.h>
@@ -37,6 +36,3 @@ void logic_indicator_leds();
 /*																		*/
 /************************************************************************/
 void set_logical_operators(uint8_t inputA, uint8_t inputB);
-
-
-#endif /* LOGIC_H_ */

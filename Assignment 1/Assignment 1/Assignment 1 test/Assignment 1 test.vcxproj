@@ -33,14 +33,13 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>D:\;D:\GitHub\HWP1\Assignment 1\Assignment 1\Assignment 1;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>E:\GitHub\HWP1\Assignment 1\Assignment 1\Assignment 1;D:\;D:\GitHub\HWP1\Assignment 1\Assignment 1\Assignment 1;$(ExternalIncludePath)</ExternalIncludePath>
     <IncludePath>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="..\Assignment 1\keys\keys.c" />
     <ClCompile Include="..\Assignment 1\logic\logic.c" />
     <ClCompile Include="fake_avr_sfr.c" />
-    <ClCompile Include="ledArray.c" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -50,7 +49,6 @@
     <ClInclude Include="..\Assignment 1\keys\keys.h" />
     <ClInclude Include="..\Assignment 1\logic\logic.h" />
     <ClInclude Include="forced_include.h" />
-    <ClInclude Include="ledArray.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
