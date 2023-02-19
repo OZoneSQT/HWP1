@@ -3,7 +3,7 @@
 extern "C" 
 {
 #include <avr/io.h>
-#include "ledArray.h"
+#include ""
 }
 
 class AssignmentTest : public ::testing::Test
@@ -11,7 +11,8 @@ class AssignmentTest : public ::testing::Test
 protected:
 		void SetUp() override 
 		{
-			init_leds();
+			init_keys();
+			logic_indicator_leds();
 		}
 		void TearDown() override {}
 };
