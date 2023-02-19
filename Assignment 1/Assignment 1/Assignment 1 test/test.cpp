@@ -3,7 +3,7 @@
 extern "C" 
 {
 #include <avr/io.h>
-//#include "leds/leds.h"
+#include "led/led_driver.h"
 #include "keys/keys.h"
 #include "logic/logic.h"
 }
@@ -13,7 +13,7 @@ class AssignmentTest : public ::testing::Test
 protected:
 		void SetUp() override 
 		{
-			//init_leds();
+			init_leds();
 			init_keys();
 			logic_indicator_leds();
 		}
@@ -25,17 +25,17 @@ protected:
  */
 TEST_F(AssignmentTest, Test_DDRA_is_output_after_init) 
 {
-  EXPECT_EQ(DDRA, 0xc0);
+  EXPECT_EQ(DDRA, 0xff);
 }
 
 TEST_F(AssignmentTest, Test_leds_are_off_after_init) 
 {
-	EXPECT_EQ(PORTA, 0x3f);
+	EXPECT_EQ(PORTA, 0xff);
 }
-/*
+
 TEST_F(AssignmentTest, First_PA0_turn_on)
 {
-	uint8_t ledPin = 0;
+	uint8_t ledPin = 1;
 
 	led_set(ledPin, 1);
 	EXPECT_EQ(0xfe, PORTA);	// 11111110
@@ -43,7 +43,7 @@ TEST_F(AssignmentTest, First_PA0_turn_on)
 
 TEST_F(AssignmentTest, First_PA1_turn_on)
 {
-	uint8_t ledPin = 1;
+	uint8_t ledPin = 2;
 
 	led_set(ledPin, 1);
 	EXPECT_EQ(0xfd, PORTA);	// 11111101
@@ -51,7 +51,7 @@ TEST_F(AssignmentTest, First_PA1_turn_on)
 
 TEST_F(AssignmentTest, First_PA2_turn_on)
 {
-	uint8_t ledPin = 2;
+	uint8_t ledPin = 3;
 
 	led_set(ledPin, 1);
 	EXPECT_EQ(0xfb, PORTA);	// 11111011
@@ -59,7 +59,7 @@ TEST_F(AssignmentTest, First_PA2_turn_on)
 
 TEST_F(AssignmentTest, First_PA3_turn_on)
 {
-	uint8_t ledPin = 3;
+	uint8_t ledPin = 4;
 
 	led_set(ledPin, 1);
 	EXPECT_EQ(0xf7, PORTA);	// 11110111
@@ -67,7 +67,7 @@ TEST_F(AssignmentTest, First_PA3_turn_on)
 
 TEST_F(AssignmentTest, First_PA4_turn_on)
 {
-	uint8_t ledPin = 4;
+	uint8_t ledPin = 5;
 
 	led_set(ledPin, 1);
 	EXPECT_EQ(0xef, PORTA); // 11101111
@@ -75,7 +75,7 @@ TEST_F(AssignmentTest, First_PA4_turn_on)
 
 TEST_F(AssignmentTest, First_PA5_turn_on)
 {
-	uint8_t ledPin = 5;
+	uint8_t ledPin = 6;
 
 	led_set(ledPin, 1);
 	EXPECT_EQ(0xdf, PORTA); // 11011111
@@ -83,7 +83,7 @@ TEST_F(AssignmentTest, First_PA5_turn_on)
 
 TEST_F(AssignmentTest, First_PA6_turn_on)
 {
-	uint8_t ledPin = 6;
+	uint8_t ledPin = 7;
 
 	led_set(ledPin, 1);
 	EXPECT_EQ(0xbf, PORTA);	// 10111111
@@ -91,7 +91,7 @@ TEST_F(AssignmentTest, First_PA6_turn_on)
 
 TEST_F(AssignmentTest, First_PA7_turn_on)
 {
-	uint8_t ledPin = 7;
+	uint8_t ledPin = 8;
 
 	led_set(ledPin, 1);
 	EXPECT_EQ(0x7f, PORTA); // 01111111
@@ -99,14 +99,14 @@ TEST_F(AssignmentTest, First_PA7_turn_on)
 
 TEST_F(AssignmentTest, Turn_on_invalid_led)
 {
-	uint8_t ledPin = 8;
+	uint8_t ledPin = 9;
 
 	led_set(ledPin, 1);
 
 	EXPECT_EQ(0xff, PORTA); // 11111111
 }
 
-*/
+
 
 /*
  * KEY / SWITCH Driver tests
