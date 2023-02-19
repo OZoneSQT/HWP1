@@ -5,6 +5,7 @@
  * Author : Michel Sommer, 273966
  */ 
 
+#include <stdint.h>
 #include <avr/io.h>
 #include "keys/keys.h"
 #include "logic/logic.h"	// To show a different implementation method of leds 

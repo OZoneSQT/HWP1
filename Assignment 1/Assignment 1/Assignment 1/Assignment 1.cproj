@@ -129,7 +129,10 @@
     <Compile Include="keys\keys.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ledArray.c">
+    <Compile Include="leds\led_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="leds\led_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="logic\logic.c">
