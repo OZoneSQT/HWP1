@@ -2,15 +2,20 @@
  * keys.h
  *
  * Created: 19/02/2023 10.37.17
- *  Author: skrue
+ * Author: Michel Sommer, 273966
  */ 
 
+#pragma once
 
-#ifndef KEYS_H_
-#define KEYS_H_
+#include <avr/io.h>
 
+/************************************************************************/
+/* Initialization of keys, setting PORTC for PC0-PC5 as input 			*/
+/************************************************************************/
+void init_keys();
 
-
-
-
-#endif /* KEYS_H_ */
+/************************************************************************/
+/* key_no [1..6], return true if key pressed							*/
+/* Allowed keys: PC0-PC5                                                */
+/************************************************************************/
+uint8_t get_key(uint8_t key_no); 
