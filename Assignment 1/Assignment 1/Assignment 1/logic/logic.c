@@ -19,7 +19,7 @@ void set_logical_operators(uint8_t inputA, uint8_t inputB)
 	if(inputA & inputB) setPortState(PORTA, PA0);
 	
 	//OR
-	if(inputA | inputB) setPortState(PORTA, PA1);
+	if((inputA | inputB) && !(inputA & inputB) ) setPortState(PORTA, PA1);
 	
 	//XOR
 	if(inputA ^ inputB) setPortState(PORTA, PA2);

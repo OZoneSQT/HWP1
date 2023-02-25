@@ -9,8 +9,12 @@
 
 void init_keys()
 {
-	DDRC = 0xc0;	//set pins 0 to 5 as input
-	PINC = 0x3f;	//activates pull up resistors of PORTC
+	DDRC = DDRC & 0b11000000;	//set pins 0 to 5 as input
+	PORTC |= 0b00111111;		//activates pull up resistors of PORTC
+	
+	//PINC = 0x3f;	
+	
+	DDRA = DDRA | 0b10000000;
 }
 
 uint8_t get_key(uint8_t key_no)
