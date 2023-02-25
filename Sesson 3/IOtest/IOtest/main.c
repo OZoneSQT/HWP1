@@ -13,8 +13,8 @@ int main(void)
 	
 	while(1)
 	{
-		//eksample();
-		buttonLed();
+		eksample();
+		//buttonLed();
 		//counter();
     }
 	return 0;

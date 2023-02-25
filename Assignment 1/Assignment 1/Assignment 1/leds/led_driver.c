@@ -9,9 +9,11 @@
 
 void init_leds()
 {
-	DDRA = 0xff; //set PORTA as output for the leds
+	//DDRA = 0xff; //set PORTA as output for the leds
+	DDRA = DDRA |= 0b00111111;
 
-	PORTA = 0xff; //turn of all leds
+	// PORTA = 0xff; //turn of all leds
+	PORTA = PORTA & 0b00111111;
 }
 
 void set_led(uint8_t led_no, uint8_t state)

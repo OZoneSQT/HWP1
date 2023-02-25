@@ -9,6 +9,7 @@
 
 #include <avr/io.h>
 #include <stdbool.h>
+#include "../leds/led_driver.h"
 
 /************************************************************************/
 /* Macros for setting state of port                                     */

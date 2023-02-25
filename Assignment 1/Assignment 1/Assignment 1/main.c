@@ -9,30 +9,16 @@
 #include <avr/io.h>
 #include "keys/keys.h"
 #include "logic/logic.h"	// To show a different implementation method of leds 
-#include "leds/led_driver.h"
+#include <util/delay.h>
 
 int main(void)
 {
 	init_keys();
 	init_leds();
 	
-	uint8_t keyS1 = 1;	//S1 = PA0
-	uint8_t keyS2 = 2;	//S2 = PA1
-	
-    while (1) 
-    {
-		set_led(keyS1, get_key(keyS1));
-		set_led(keyS2, get_key(keyS2));
-    }
-	
-	return 0;
-}
-/*
-void logic()
-{
-	init_keys();
-	logic_indicator_leds();
-	
+	/************************************************************************/
+	/* Set pins                                                                     */
+	/************************************************************************/
 	uint8_t keyS1 = 1;	//S1 = PA0
 	uint8_t keyS2 = 2;	//S2 = PA1
 	
@@ -40,6 +26,23 @@ void logic()
     {
 		uint8_t inputA = get_key(keyS1);
 		uint8_t inputB = get_key(keyS2);
+		
+	//	if(inputA == 2 || inputB == 2) counter();	// catch error
+		
 		set_logical_operators(inputA, inputB);
     }
-}*/
+	
+	return 0;
+}
+
+void counter()
+{
+	DDRA = 0xFF;
+	PORTA = 0xFF;
+	
+	while (1)
+	{
+		PORTA++;
+		_delay_ms(1000);
+	}
+}
