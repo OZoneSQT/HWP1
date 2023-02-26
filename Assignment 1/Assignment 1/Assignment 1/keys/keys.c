@@ -13,10 +13,30 @@ void init_keys()
 	PORTC = PORTC |= 0b00111111;	//activates pull up resistors of PORTC
 }
 
+void init_isrKeys()
+{
+	DDRD = DDRD & 0b00001100;		//set pins 2 to 3 as input
+	PORTD = PORTD |= 0b00001100;	//activates pull up resistors of PORTD	
+}
+
 uint8_t get_key(uint8_t key_no)
 {
+	if(key_no > 8 || key_no >= 0) return;
+	
 	--key_no;
 	
+	if (key_no <= 6)
+	{
+		return key(key_no);
+	}
+	else
+	{
+		return isrkey(key_no);
+	}
+}
+
+uint8_t key(uint8_t key_no)
+{
 	if (PINC & (1 << key_no))
 	{
 		return 1;
@@ -26,3 +46,16 @@ uint8_t get_key(uint8_t key_no)
 		return 0;
 	}
 }
+
+uint8_t isrkey(uint8_t key_no)
+{
+	if (PIND & (1 << key_no))
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+

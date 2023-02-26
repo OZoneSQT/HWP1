@@ -39,6 +39,7 @@
   <ItemGroup>
     <ClCompile Include="..\Assignment 1\keys\keys.c" />
     <ClCompile Include="..\Assignment 1\leds\led_driver.c" />
+    <ClCompile Include="..\Assignment 1\leds\lightbar.c" />
     <ClCompile Include="..\Assignment 1\logic\logic.c" />
     <ClCompile Include="fake_avr_sfr.c" />
     <ClCompile Include="test.cpp" />
@@ -49,6 +50,7 @@
   <ItemGroup>
     <ClInclude Include="..\Assignment 1\keys\keys.h" />
     <ClInclude Include="..\Assignment 1\leds\led_driver.h" />
+    <ClInclude Include="..\Assignment 1\leds\lightbar.h" />
     <ClInclude Include="..\Assignment 1\logic\logic.h" />
     <ClInclude Include="forced_include.h" />
     <ClInclude Include="resource.h" />
