@@ -6,7 +6,6 @@
  */ 
 
 #include <avr/io.h>
-#include <util/delay.h>
 
 void init_keys(){
 	DDRC = DDRC & 0b11000000;
@@ -20,6 +19,8 @@ void init_led(){
 
 uint8_t get_state(uint8_t pin_number) 
 {
+	--pin_number;
+	
 	if (PINC & (1 << pin_number)) 
 	{
 		return 1;
@@ -32,6 +33,7 @@ uint8_t get_state(uint8_t pin_number)
 
 void set_led(uint8_t pin, uint8_t state)
 {
+	--pin;
 	if(state == 0)
 	{
 		PORTA &= ~(1 << pin);
@@ -42,65 +44,40 @@ void set_led(uint8_t pin, uint8_t state)
 	}
 }
 
-
 void set_logical_operators(uint8_t inputA, uint8_t inputB)
 {	
-	//AND
-	if(inputA & inputB) set_led(1, 1); // setPortState(PORTA, PA0);
+	// Compute the bitwise operations
+	uint8_t and = (inputA & inputB);
+	uint8_t or = (inputA | inputB);
+	uint8_t xor = (inputA ^ inputB);
+	uint8_t nand = ~(inputA & inputB);
+	uint8_t nor = ~(inputA | inputB);
+	uint8_t xnor = ~(inputA ^ inputB);
 	
-	//OR
-	if( (inputA | inputB) && !(inputA & inputB) ) set_led(2, 1); // setPortState(PORTA, PA1);
-	
-	//XOR
-	if(inputA ^ inputB) set_led(3, 1); // setPortState(PORTA, PA2);
-	
-	//NAND
-	if(!(inputA & inputB)) set_led(4, 1); // setPortState(PORTA, PA3);
-	
-	//NOR
-	if(!(inputA | inputB)) set_led(5, 1); // setPortState(PORTA, PA4);
-	
-	//XNOR
-	if(!(inputA ^ inputB)) set_led(6, 1); // setPortState(PORTA, PA5);
+	//setting output
+	set_led(1, and);
+	set_led(2, or);
+	set_led(3, xor);
+	set_led(4, nand);
+	set_led(5, nor);
+	set_led(6, xnor);
 }
-
-/*
-void logic(uint8_t inputA, uint8_t inputB)
-{
-	 while (1) {
-		 // Read the state of pins 0 and 1 on PORTC
-		 uint8_t c = PINC & ((1 << PINC0) | (1 << PINC1));
-		 // Compute the bitwise operations
-		 uint8_t and = (c & 0x03);
-		 uint8_t or = (c != 0x00);
-		 uint8_t xor = (c ^ 0x03);
-		 uint8_t nand = ~(c & 0x03);
-		 uint8_t nor = ~(c != 0x00);
-		 uint8_t xnor = ~(c ^ 0x03);
-		 // Output the results on PORTA
-		 PORTA = (and << PINA0) | (or << PINA1) | (xor << PINA2) |
-		 (nand << PINA3) | (nor << PINA4) | (xnor << PINA5);
-	 }
-}
-*/
 
 int main(void)
 {
+	init_keys();
+	init_led();
 	
-	//init_keys();
-	//init_led();
-	
+	uint8_t s1 = 0;
+	uint8_t s2 = 0;
 	
 	while(1)
 	{
-		//set_led(0,get_state(0));
-		//set_led(1,get_state(1));
+		s1 = get_state(1);
+		s2 = get_state(2);
 		
-		//logic(get_state(0),get_state(1));
-		set_logical_operators(get_state(0),get_state(1));
-		
+		set_logical_operators(s1,s2);
 	}
 	
 	return 0;
-	
 }
