@@ -18,7 +18,8 @@ void init_leds()
 
 void set_led(uint8_t led_no, uint8_t state)
 {
-    if (led_no < 1 || led_no > 8) {
+	
+    if (led_no < 1 || led_no > 6) {
         return;
     }
 
@@ -27,7 +28,7 @@ void set_led(uint8_t led_no, uint8_t state)
 
 
     // Set the state of the LED
-    if (state == 1) {
+    if (state == 0) {
         // Turn the LED on by setting the pin to LOW
         PORTA &= ~(1 << pin);
     }

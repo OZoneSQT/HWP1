@@ -14,24 +14,19 @@ void logic_indicator_leds()
 
 void set_logical_operators(uint8_t inputA, uint8_t inputB)
 {
-	inputA = 1;
-	inputB = 1;
-	
-	//AND
-	if(inputA & inputB) set_led(1, 1); // setPortState(PORTA, PA0);
-	
-	//OR
-	if( (inputA | inputB) && !(inputA & inputB) ) set_led(2, 1); // setPortState(PORTA, PA1);
-	
-	//XOR
-	if(inputA ^ inputB) set_led(3, 1); // setPortState(PORTA, PA2);
-	
-	//NAND
-	if(!(inputA & inputB)) set_led(4, 1); // setPortState(PORTA, PA3);
-	
-	//NOR
-	if(!(inputA | inputB)) set_led(5, 1); // setPortState(PORTA, PA4);
-	
-	//XNOR
-	if(!(inputA ^ inputB)) set_led(6, 1); // setPortState(PORTA, PA5);
+	// Bitwise operations
+	uint8_t and = (inputA & inputB);
+	uint8_t or = (inputA | inputB);
+	uint8_t xor = (inputA ^ inputB);
+	uint8_t nand = ~(inputA & inputB);
+	uint8_t nor = ~(inputA | inputB);
+	uint8_t xnor = ~(inputA ^ inputB);
+
+	// value matcher
+	if(nand >= 1) nand = 1;
+	if(nor >= 1) nor = 1;
+	if(xnor >= 1) xnor = 1;
+
+	// Output
+	PORTA = (and << PINA0) | (or << PINA1) | (xor << PINA2) | (nand << PINA3) | (nor << PINA4) | (xnor << PINA5);
 }
