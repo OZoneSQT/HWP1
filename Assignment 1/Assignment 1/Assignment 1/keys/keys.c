@@ -9,27 +9,20 @@
 
 void init_keys()
 {
-	DDRC = 0xc0;	//set pins 0 to 5 as input
-	PINC = 0x3f;	//activates pull up resistors of PORTC
+	DDRC = DDRC & 0b00111111;		//set pins 0 to 5 as input
+	PORTC = PORTC |= 0b00111111;	//activates pull up resistors of PORTC
 }
 
 uint8_t get_key(uint8_t key_no)
 {
-	if(key_no <= 1 && key_no >= 6)
+	--key_no;
+	
+	if (PINC & (1 << key_no))
 	{
-		uint8_t status = PINC & _BV(--key_no);	//Make key_no match bit and get pin status
-		
-		if (status == 0)
-		{
-			return 1;
-		}
-		else
-		{
-			return 0;
-		}
+		return 1;
 	}
 	else
 	{
-		return 255;
+		return 0;
 	}
 }

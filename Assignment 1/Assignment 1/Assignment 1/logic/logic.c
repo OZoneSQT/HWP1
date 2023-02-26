@@ -9,27 +9,24 @@
 
 void logic_indicator_leds()
 {
-	DDRA = 0xc0;	//set pins 0 to 5 as output
-	PORTA = 0x3f;	// turn off leds
+	init_leds();
 }
 
 void set_logical_operators(uint8_t inputA, uint8_t inputB)
 {
-	//AND
-	if(inputA & inputB) setPortState(PORTA, PA0);
-	
-	//OR
-	if(inputA | inputB) setPortState(PORTA, PA1);
-	
-	//XOR
-	if(inputA ^ inputB) setPortState(PORTA, PA2);
-	
-	//NAND
-	if(!(inputA & inputB)) setPortState(PORTA, PA3);
-	
-	//NOR
-	if(!(inputA | inputB)) setPortState(PORTA, PA4);
-	
-	//XNOR
-	if(!(inputA ^ inputB)) setPortState(PORTA, PA5);
+	// Bitwise operations
+	uint8_t and = (inputA & inputB);
+	uint8_t or = (inputA | inputB);
+	uint8_t xor = (inputA ^ inputB);
+	uint8_t nand = ~(inputA & inputB);
+	uint8_t nor = ~(inputA | inputB);
+	uint8_t xnor = ~(inputA ^ inputB);
+
+	// value matcher
+	if(nand >= 1) nand = 1;
+	if(nor >= 1) nor = 1;
+	if(xnor >= 1) xnor = 1;
+
+	// Output
+	PORTA = (and << PINA0) | (or << PINA1) | (xor << PINA2) | (nand << PINA3) | (nor << PINA4) | (xnor << PINA5);
 }

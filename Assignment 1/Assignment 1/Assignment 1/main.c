@@ -15,6 +15,9 @@ int main(void)
 	init_keys();
 	logic_indicator_leds();
 	
+	/************************************************************************/
+	/* Set pins                                                                     */
+	/************************************************************************/
 	uint8_t keyS1 = 1;	//S1 = PA0
 	uint8_t keyS2 = 2;	//S2 = PA1
 	
@@ -22,8 +25,10 @@ int main(void)
     {
 		uint8_t inputA = get_key(keyS1);
 		uint8_t inputB = get_key(keyS2);
+		
 		set_logical_operators(inputA, inputB);
     }
 	
 	return 0;
 }
+
