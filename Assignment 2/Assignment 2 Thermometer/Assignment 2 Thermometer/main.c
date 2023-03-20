@@ -16,7 +16,7 @@ int main(void)
     /* KISS - Keep It Simpel S****d */
 	
 	// Set timer in ms
-	thermometer_init(1000);
+	thermometer_init(DELAY_S);
 	
     // Run thermometer
 	thermometer_run();

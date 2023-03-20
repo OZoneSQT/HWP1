@@ -7,27 +7,18 @@
 
 #include "thermometer.h"
 
-static adcPin _adc = ADC15;
 static uint8_t _init = 0;
 static uint8_t _halt = 0;
-
 reading_t* reading;
-float sample;
-float degree;
-int16_t temp;
 
 
 /*******************************************************************************/
 
 static int16_t thermometer_convertToCelcius(uint16_t adcValue)
 {
-	// TODO fix
-	
-	//ADC on 2^10 bits so a resolution of 1024. Vref=5V and use the formula : (Vin-500)/10 with Vin=ADC*5/1024
-	degree = ( ( ( (float)ADC * 50 / 1024 ) * 100 ) -500 ) / 10;
-	//force to INT
-	int16_t temp = (int16_t)degree;
-	return(temp);
+	//ADC on 2^10 bits so a resolution of 1024. Vref = 5V and use the formula : (Vin-500)/10 with Vin=ADC*5/1024
+	float degree = ( ( ( (float)adcValue * 50 / 1024 ) * 100 ) -500 ) / 10;
+	return (int16_t)( 0.1 * degree - 50 );
 }
 
 /*******************************************************************************/
@@ -35,14 +26,18 @@ static int16_t thermometer_convertToCelcius(uint16_t adcValue)
 // Interrupt Time each second to update the temperature
 ISR(TIMER1_COMPA_vect)
 {
-	uint16_t t = adc_read(_adc);
+	uint16_t t = adc_read(ADCPIN);
+	
+	
+	// TODO update / read value from struct, or save as variables 
+	
 	
 	if(_init == 0)
 	{
 		_init++;
-		reading.max = t;
-		reading.last = t;
-		reading.min = t;
+		reading.max=t;
+		reading.last=t;
+		reading.min=t;
 	}
 	else
 	{
@@ -55,6 +50,7 @@ ISR(TIMER1_COMPA_vect)
 }
 
 /*******************************************************************************/
+// select output. min / max is displayed for 2 sec, using timer 1
 static uint16_t thermometer_display()
 {
 	if( _halt < 3 )
@@ -81,10 +77,17 @@ static uint16_t thermometer_display()
 /*******************************************************************************/
 void temperature_bar(uint16_t adcValue)
 {
-	//TODO Calc to display temp on led bar 18C = 1 led, 25C = 8led
+	// Map display temp on led bar: 18C = 1 led, ... ,25C = 8led
+	uint8_t level = 0;
+	if( adcValue == 18 ) level = 1;
+	if( adcValue == 19 ) level = 2;
+	if( adcValue == 20 ) level = 3;
+	if( adcValue == 21 ) level = 4;
+	if( adcValue == 22 ) level = 5;
+	if( adcValue == 23 ) level = 6;
+	if( adcValue == 24 ) level = 7;
+	if( adcValue == 25 ) level = 8;
 	
-	
-	uint8_t level;
 	lightbar_level(level);
 }
 
@@ -93,8 +96,8 @@ void temperature_bar(uint16_t adcValue)
 // Interrupt Time each 10 millisecond to display the digit
 ISR(TIMER2_COMPA_vect)
 {
-	float resule = thermometer_display();
-	printint_4s();
+	uint16_t result = (uint16_t)thermometer_display();
+	printint_4s(result);
 }
 
 /*******************************************************************************/
@@ -117,9 +120,9 @@ void thermometer_init(uint16_t ms)
 	
 	keys_isr_init_pd2();				// show min
 	keys_isr_init_pd3();				// show max
-	timer_init_16bit(TIMER_1, 1000);	// read temp
-	timer_init_8bit(10);				// update display
-	adc_init_8bit(_adc);				// adc pin 15
+	timer_init_16bit(TIMER_1, DELAY_S);	// read temp
+	timer_init_8bit(DELAY_MS);			// update display
+	adc_init_10bit(ADCPIN);				// adc pin
 	lightbar_init();					// light bar
 }
 

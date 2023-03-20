@@ -7,10 +7,10 @@
 
  #pragma once
  
- #define F_CPU = 16000000
- 
- 
- // LEDbar = PORTA, aka PA0 - PA7
+ #define F_CPU = 16000000	// CLK
+ #define ADCPIN	= ADC15		// ADC pin, thermometer
+ #define DELAY_S = 1000		// ADC measurement interval
+ #define DELAY_MS = 10		// Display refresh time
  
  
  
