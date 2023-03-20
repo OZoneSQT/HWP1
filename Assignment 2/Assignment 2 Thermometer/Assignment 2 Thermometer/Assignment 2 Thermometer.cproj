@@ -161,10 +161,7 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="thermometer\thermometer-driver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="thermometer\thermometer-driver.h">
+    <Compile Include="settings.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="thermometer\thermometer.c">

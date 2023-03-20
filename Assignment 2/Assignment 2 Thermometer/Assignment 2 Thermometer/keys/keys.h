@@ -10,6 +10,12 @@
 #include <stdint.h>
 #include <avr/io.h>
 
+/*
+ *  Interrupt service routines:
+ *	ISR(INT2_vect) { } // INT2 (PD2)
+ *	ISR(INT3_vect) { } // INT3 (PD3)
+ */
+
 
 /************************************************************************/
 /* Initialization of keys, setting PORTC for PC0-PC5 as input 			*/
@@ -21,6 +27,18 @@ void keys_init();
 /* Initialization of isr keys, setting PORTD for PD2-PD3 as input 		*/
 /************************************************************************/
 void keys_isr_init();
+
+
+/************************************************************************/
+/* Initialization of isr keys, setting PORTD for PD2 as ext. interrupt  */
+/************************************************************************/
+void keys_isr_init_pd2();
+
+
+/************************************************************************/
+/* Initialization of isr keys, setting PORTD for PD3 as ext. interrupt  */
+/************************************************************************/
+void keys_isr_init_pd3();
 
 
 /************************************************************************/

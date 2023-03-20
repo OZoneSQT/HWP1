@@ -5,10 +5,9 @@
  * Author: Michel Sommer, 273966
  */ 
 
+#include "settings.h"
 #include <stdint.h>
 #include "thermometer/thermometer.h"
-
-#define F_CPU = 16000000
 
 
 /*******************************************************************************/

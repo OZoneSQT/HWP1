@@ -10,17 +10,6 @@
  #include <stdint.h>
 
 
-/************************************************************************/
-/* @brief Struct containing readings                                    */
-/************************************************************************/
-typedef struct Reading {
-	union {
-		int16_t min = 0;
-		int16_t reading = 0;
-		int16_t max = 0;
-	};
-} reading_t;
-
 
 /************************************************************************/
 /* @brief Initialization of thermometer driver                          */

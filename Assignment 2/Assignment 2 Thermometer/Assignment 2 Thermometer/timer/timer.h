@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "../settings.h"
 #include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>

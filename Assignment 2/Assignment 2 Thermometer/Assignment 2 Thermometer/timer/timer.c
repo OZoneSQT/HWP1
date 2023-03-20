@@ -5,7 +5,6 @@
  * Author: Michel Sommer, 273966
  */ 
 
-
 #include "timer.h"
 
 
