@@ -9,6 +9,7 @@
 
 #include <stdint.h>
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 /*
  *  Interrupt service routines:
@@ -45,4 +46,4 @@ void keys_isr_init_pd3();
 /* key_no [1..6], return true if key pressed							*/
 /* Allowed keys: PC0-PC5, PD2-PD3                                       */
 /************************************************************************/
-uint8_t keys_get_state(uint8_t key_no); 
+uint8_t keys_get_state(uint8_t key_no);

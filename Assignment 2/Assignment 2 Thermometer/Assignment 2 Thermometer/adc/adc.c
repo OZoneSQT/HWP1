@@ -37,15 +37,13 @@ static void init_adc_continuous_common(adcPin_t pin) {
 	// Set the ADC trigger source to free running mode
 	ADCSRB &= ~((1 << ADTS2) | (1 << ADTS1) | (1 << ADTS0));
 
-	// Enable global interrupts
-	sei();
-
 	// Start the first ADC conversion
 	ADCSRA |= (1 << ADSC);
 }	
 	
 /*******************************************************************************/
-// Function to initialize continuous readings of an ADC pin with 8-bit resolution
+// Function to initialize continuous readings of an ADC pin with 8-bit resolution 
+
 void adc_init_8bit(adcPin_t pin) 
 {
 	// Configure the ADMUX register for the specified pin and 8-bit resolution
@@ -53,7 +51,7 @@ void adc_init_8bit(adcPin_t pin)
 
 	// Call the common initialization code
 	init_adc_continuous_common(pin);
-}
+} 
 	 
 /*******************************************************************************/
 // Function to initialize continuous readings of an ADC pin with 10-bit resolution
@@ -64,17 +62,6 @@ void adc_init_10bit(adcPin_t pin)
 
 	// Call the common initialization code
 	init_adc_continuous_common(pin);
-}
-	  	 
-/*******************************************************************************/
-void adc_init_8bit(adcPin_t pin)
-{
-	// Set AVCC as voltage reference and set prescaler to 128
-	ADMUX = (1 << REFS0);
-	ADCSRA = (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
-	    
-	// Enable ADC
-	ADCSRA |= (1 << ADEN);
 }
 
 /*******************************************************************************/

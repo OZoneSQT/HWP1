@@ -9,6 +9,32 @@
 
 
 /*******************************************************************************/
+static uint8_t key(uint8_t key_no)
+{
+	if (PINC & (1 << key_no))
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+/*******************************************************************************/
+static uint8_t isrkey(uint8_t key_no)
+{
+	if (PIND & (1 << key_no))
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+/*******************************************************************************/
 void keys_init()
 {
 	DDRC = DDRC & 0b00111111;		//set pins 0 to 5 as input
@@ -40,32 +66,6 @@ uint8_t keys_get_state(uint8_t key_no)
 }
 
 /*******************************************************************************/
-uint8_t key(uint8_t key_no)
-{
-	if (PINC & (1 << key_no))
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-/*******************************************************************************/
-uint8_t isrkey(uint8_t key_no)
-{
-	if (PIND & (1 << key_no))
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-/*******************************************************************************/
 void keys_isr_init_pd2()
 {
     // Configure PD2 as an input
@@ -81,8 +81,6 @@ void keys_isr_init_pd2()
     // Enable the external interrupt for INT2
     EIMSK |= (1 << INT2);
 
-    // Enable global interrupts
-    sei();
 }
 
 /*******************************************************************************/
@@ -101,8 +99,6 @@ void keys_isr_init_pd3()
     // Enable the external interrupt for INT3
     EIMSK |= (1 << INT3);
 
-    // Enable global interrupts
-    sei();
 }
 
 /*******************************************************************************/

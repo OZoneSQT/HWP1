@@ -10,6 +10,7 @@
 #include "../settings.h"
 #include <stdint.h>
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 // Define the PWM_PIN enumeration type
 typedef enum {

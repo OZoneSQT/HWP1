@@ -9,11 +9,37 @@
 
 static uint8_t _init = 0;
 static uint8_t _halt = 0;
-reading_t* reading;
+
+static int16_t _reading_min = 0;
+static int16_t _reading_last = 0;
+static int16_t _reading_max = 0;
 
 
 /*******************************************************************************/
+// Timer1 - 16 bit timer
+// Interrupt Time each second to update the temperature
+ISR(TIMER1_COMPA_vect)
+{
+	uint16_t t = adc_read(ADCPIN);
 
+	if(_init == 0)
+	{
+		_init++;
+		_reading_max=t;
+		_reading_last=t;
+		_reading_min=t;
+	}
+	else
+	{
+		_reading_last = t;
+		if( t < _reading_min ) _reading_min = t;
+		if( t > _reading_max ) _reading_max = t;
+	}
+	
+	if( _halt != 0) _halt--;
+}
+
+/*******************************************************************************/
 static int16_t thermometer_convertToCelcius(uint16_t adcValue)
 {
 	//ADC on 2^10 bits so a resolution of 1024. Vref = 5V and use the formula : (Vin-500)/10 with Vin=ADC*5/1024
@@ -22,74 +48,48 @@ static int16_t thermometer_convertToCelcius(uint16_t adcValue)
 }
 
 /*******************************************************************************/
-// Timer1 - 16 bit timer
-// Interrupt Time each second to update the temperature
-ISR(TIMER1_COMPA_vect)
+static void temperature_bar()
 {
-	uint16_t t = adc_read(ADCPIN);
+	// Map display temp on led bar: 18C = 1 led, ... ,25C = 8led
+	uint8_t level = 0;
+	if( _reading_last == 18 ) level = 1;
+	if( _reading_last == 19 ) level = 2;
+	if( _reading_last == 20 ) level = 3;
+	if( _reading_last == 21 ) level = 4;
+	if( _reading_last == 22 ) level = 5;
+	if( _reading_last == 23 ) level = 6;
+	if( _reading_last == 24 ) level = 7;
+	if( _reading_last == 25 ) level = 8;
 	
-	
-	// TODO update / read value from struct, or save as variables 
-	
-	
-	if(_init == 0)
-	{
-		_init++;
-		reading.max=t;
-		reading.last=t;
-		reading.min=t;
-	}
-	else
-	{
-		reading.last = t;
-		if( t < reading.min ) reading.min = t;
-		if( t > reading.max ) reading.max = t;
-	}
-	
-	if( _halt != 0) _halt--;
+	lightbar_level(level);
 }
 
 /*******************************************************************************/
 // select output. min / max is displayed for 2 sec, using timer 1
 static uint16_t thermometer_display()
 {
+	temperature_bar();
+	
 	if( _halt < 3 )
 	{
 		_halt--;
-		return reading.max;
+		return _reading_max;
 	}
 	else if( _halt == 3 )
 	{
 		_halt = 0;
-		return reading.last;
+		return _reading_last;
 	}
 	else if( _halt < 0 )
 	{
 		_halt--;
-		return reading.min;
+		return _reading_min;
 	}
 	else
 	{
-		return reading.last;
+		return _reading_last;
 	}
 } 
-
-/*******************************************************************************/
-void temperature_bar(uint16_t adcValue)
-{
-	// Map display temp on led bar: 18C = 1 led, ... ,25C = 8led
-	uint8_t level = 0;
-	if( adcValue == 18 ) level = 1;
-	if( adcValue == 19 ) level = 2;
-	if( adcValue == 20 ) level = 3;
-	if( adcValue == 21 ) level = 4;
-	if( adcValue == 22 ) level = 5;
-	if( adcValue == 23 ) level = 6;
-	if( adcValue == 24 ) level = 7;
-	if( adcValue == 25 ) level = 8;
-	
-	lightbar_level(level);
-}
 
 /*******************************************************************************/
 // Timer2 - 8 bit timer
@@ -97,7 +97,7 @@ void temperature_bar(uint16_t adcValue)
 ISR(TIMER2_COMPA_vect)
 {
 	uint16_t result = (uint16_t)thermometer_display();
-	printint_4s(result);
+	display_printint_4s(result);
 }
 
 /*******************************************************************************/
@@ -114,16 +114,16 @@ ISR(INT3_vect) {
 
 /*******************************************************************************/
 void thermometer_init(uint16_t ms)
-{
-	// Dynamically allocate memory using malloc()
-	reading = (reading_t*)malloc(sizeof(reading_t));
-	
+{	
 	keys_isr_init_pd2();				// show min
 	keys_isr_init_pd3();				// show max
 	timer_init_16bit(TIMER_1, DELAY_S);	// read temp
 	timer_init_8bit(DELAY_MS);			// update display
 	adc_init_10bit(ADCPIN);				// adc pin
+	display_init();						// 7-segment displays 
 	lightbar_init();					// light bar
+	
+	sei();								// Enable global interrupts
 }
 
 /*******************************************************************************/

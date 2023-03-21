@@ -44,7 +44,7 @@ static uint16_t get_prescaler(int16_t time_ms)
 }
 
 /*******************************************************************************/
-void timer_init_16bit(uint8_t time_ms,TIMER_t timer_number)
+void timer_init_16bit(uint8_t time_ms,timer_t timer_number)
 {
 	// Determine the timer registers to use based on the timer number
 	volatile uint16_t* tccra_reg;

@@ -11,15 +11,15 @@
  #include <stdint.h>
  #include <avr/io.h>
 
+
 // Enumeration to limit input options
-typedef enum adcPin adcPin_t;
-enum adcPin
+typedef enum adcPin
 {
 	ADC0, ADC1, ADC2, ADC3, 
 	ADC4, ADC5, ADC6, ADC7, 
 	ADC8, ADC9, ADC10, ADC11, 
 	ADC12, ADC13, ADC14, ADC15
-};
+} adcPin_t;
 
 
  /************************************************************************/

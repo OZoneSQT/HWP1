@@ -9,6 +9,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <avr/interrupt.h>
 #include "../keys/keys.h"
 #include "../timer/timer.h"
 #include "../leds/lightbar.h"
@@ -22,18 +23,6 @@
  * The output voltage of the sensor is 10mV/°C, and typically 750mV@25°C
  * aka: 740 mV = 24 C, 730 mV = 23C e.g.
  */
-
-
-/************************************************************************/
-/* @brief Struct containing readings                                    */
-/************************************************************************/
-typedef struct Reading {
-	union {
-		int16_t min = 0;
-		int16_t last = 0;
-		int16_t max = 0;
-	};
-} reading_t;
 
 
 /************************************************************************/

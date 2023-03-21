@@ -19,20 +19,21 @@ void lightbar_init();
 
 
 /************************************************************************/
-/*  Return values [0...8]. 0 if no key is pushed                        */
+/* Initialization of leds, setting PORTA for PC0-PC7 as output 			*/
+/* and initialization of isr keys 		                            	*/
 /************************************************************************/
-uint8_t lightbar_scan_key();
+void lightbar_isr_keys_init();
 
 
 /************************************************************************/
-/* Light bar turn on or off LEDs according to level                      */
+/* Light bar turn on or off LEDs according to level                     */
 /* input 0-8                                                            */
 /*                                                                      */
 /*   * If level is 0 all LEDs are turned off                            */
 /*   * Any value between these two extremes must light up the           */
 /*     corresponding number of LEDs                                     */
 /************************************************************************/
-uint8_t lightbar_scan_key();
+void lightbar_scan_key();
 
 
 /************************************************************************/

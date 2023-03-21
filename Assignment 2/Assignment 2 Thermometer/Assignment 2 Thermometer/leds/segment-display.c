@@ -17,11 +17,9 @@
 
 static int digit = 1;
 static int firstvalue; // variable to know if the high digit is 0 or no and to display it or no
-static uint16_t temperature;
-
 
 /*******************************************************************************/
-void init_display()
+void display_init()
 {
 	// RCK-->PB0 and when the 8 segments are good, SCK-->PB1 for each segment and SI-->PB2 for the value
 	DDRB |= _BV(RCK) | _BV(SCK) | _BV(SI);
@@ -34,7 +32,25 @@ void init_display()
 }
 
 /*******************************************************************************/
-void printint_4s(uint16_t value)
+//Function to divide the number in 4 different digit
+static uint16_t printint_1u(uint16_t value)
+{
+	uint16_t dig1, dig2, dig3, dig4;
+	dig1=value/1000;
+	dig2=(value%1000)/100;
+	dig3=(value%100)/10;
+	dig4=value%10;
+	
+	if(digit==4) return dig4;
+	if(digit==3) return dig3;
+	if(digit==2) return dig2;
+	if(digit==1) return dig1;
+	
+	return 0;
+}
+
+/*******************************************************************************/
+void display_printint_4s(uint16_t value)
 {
 	//Array to display
 	int display[8];

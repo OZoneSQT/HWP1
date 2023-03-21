@@ -17,7 +17,7 @@
 typedef enum 
 {
 	TIMER_1 = 1, TIMER_3 = 3
-} TIMER_t; 
+} timer_t; 
 
 /*
  *  Interrupt service routines:
@@ -36,7 +36,7 @@ typedef enum
 /* @brief Initialization 16 bit timers                                  */
 /*        Options: Timer1, or Timer3, with time in ms                   */
 /************************************************************************/
-void timer_init_16bit(uint8_t time_ms,enum TIMER_t timer_number);
+void timer_init_16bit(uint8_t time_ms,timer_t timer_number);
 
 
 /************************************************************************/
