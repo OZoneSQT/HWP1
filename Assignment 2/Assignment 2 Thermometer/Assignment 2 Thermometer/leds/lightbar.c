@@ -41,7 +41,7 @@ void lightbar_scan_key()
 		if(keys_get_state(i) != 0) level++;
 	}
 		
-	return level;
+	lightbar_level(level);
 }
 
 /*******************************************************************************/
