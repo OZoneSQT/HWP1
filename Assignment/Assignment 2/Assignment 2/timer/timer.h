@@ -21,9 +21,11 @@ typedef enum
 
 /*
  *  Interrupt service routines:
- *	ISR(TIMER1_COMPA_vect) { } Timer1 - 16 bit timer
- *	ISR(TIMER2_COMPA_vect) { } Timer2 - 8 bit timer
- *	ISR(TIMER3_COMPA_vect) { } Timer3 - 16 bit timer
+ *	ISR(TIMER1_COMPA_vect) { TOV1 |= 1 } Timer1 - 16 bit timer
+ *	ISR(TIMER2_COMPA_vect) { TOV2 |= 1 } Timer2 - 8 bit timer
+ *	ISR(TIMER3_COMPA_vect) { TOV3 |= 1 } Timer3 - 16 bit timer
+ *	 
+ *	LOOK AT => TIFR1 |= _BV(OCF1B); make function taking ADCPIN as parameter, use pointer to register 
  *
  *	Note:	that Timer2 is an 8-bit timer and can only count up to
  *			255, so the maximum time you can set is about 16ms with

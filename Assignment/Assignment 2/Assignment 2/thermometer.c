@@ -119,9 +119,9 @@ int16_t thermometer_convertToCelcius(uint16_t adcValue)
 	keys_isr_init_pd2();				// show min
 	keys_isr_init_pd3();				// show max
 	timer_init_16bit(TIMER_1, DELAY_S);	// read temp
-	timer_init_8bit(DELAY_MS);			// update display
+	//timer_init_8bit(DELAY_MS);			// update display
 	adc_init_10bit(ADCPIN);				// adc pin
-	display_init();						// 7-segment displays
+	//display_init();						// 7-segment displays
 	lightbar_init();					// light bar
  
 	sei();								// Enable global interrupts

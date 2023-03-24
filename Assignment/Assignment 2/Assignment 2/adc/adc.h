@@ -15,10 +15,10 @@
  // Enumeration to limit input options
  typedef enum adcPin
  {
-	 ADC0, ADC1, ADC2, ADC3,
-	 ADC4, ADC5, ADC6, ADC7,
-	 ADC8, ADC9, ADC10, ADC11,
-	 ADC12, ADC13, ADC14, ADC15
+	 ADC_0 = PF0, ADC_1 = PF1, ADC_2 = PF2, ADC_3 = PF3,
+	 ADC_4 = PF4, ADC_5 = PF5, ADC_6 = PF6, ADC_7 = PF7,
+	 ADC_8 = PK0, ADC_9 = PK1, ADC_10 = PK2, ADC_11 = PK3,
+	 ADC_12 = PK4, ADC_13 = PK5, ADC_14 = PK6, ADC_15 = PK7
  } adcPin_t;
 
 
