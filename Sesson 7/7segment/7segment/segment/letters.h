@@ -2,13 +2,24 @@
  * letters.h
  *
  * Created: 24/03/2023 10.39.53
- *  Author: skrue
+ * Author: Michel Sommer, 273966
  */ 
 
 #pragma once
 
-// Enumeration for mapping letters to segment
-// L for letter then value, and D for dot
+#include <stdint.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <assert.h>
+#include <string.h>
+#include "../timer/timer.h"
+#include "../spi/spi-hal.h"
+
+
+/************************************************************************/
+/* Enumeration for mapping letters to segment                           */
+/* L for letter then value, and D for dot                               */
+/************************************************************************/
 typedef enum
 {
 // ENUM = Value    Sign		binary value
@@ -27,9 +38,9 @@ typedef enum
 	L3D = 0x9F, // 3 DOT	0b10011111
 	L4D = 0x67, // 4 DOT	0b01100111
 	L5D = 0xB7, // 5 DOT	0b10110111
-	L6D = 0xB7, // 6 DOT	0b00110111
-	L7D = 0x37, // 7 DOT	0b11100001
-	L8. = 0xE1, // 8 DOT	0b11111111
+	L6D = 0x37, // 6 DOT	0b00110111
+	L7D = 0xE1, // 7 DOT	0b11100001
+	L8. = 0xFF, // 8 DOT	0b11111111
 	L9D = 0xC7, // 9 DOT	0b11000111
 	L0D = 0xFD, // 0 DOT	0b11111101
 	 LA = 0xEE, // A		0b11101110
@@ -40,5 +51,6 @@ typedef enum
 	 LL = 0x0E, // L		0b00011100
 	 LP = 0xCE, // P		0b11001110
 	 LU = 0x7E, // U		0b01111100
-	 LD = 0x01  // DOT		0b00000001
+	 LD = 0x01, // DOT		0b00000001
+	 LN = 0x02  // -		ob00000010
 } letters_t;
