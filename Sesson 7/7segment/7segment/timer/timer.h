@@ -5,19 +5,19 @@
  * Author: Michel Sommer, 273966
  */
 
-#pragma once
+ #pragma once
 
-#include "../settings.h"
-#include <stdint.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
+ #include "../settings.h"
+ #include <stdint.h>
+ #include <avr/io.h>
+ #include <avr/interrupt.h>
 
 
-// Enumeration to limit input options
-typedef enum 
-{
+ // Enumeration to limit input options
+ typedef enum 
+ {
 	TIMER_1 = 1, TIMER_3 = 3
-} timer_t; 
+ } timer_t; 
 
 /*
  *  Interrupt service routines:
@@ -34,14 +34,14 @@ typedef enum
  */
 
 
-/************************************************************************/
-/* @brief Initialization 16 bit timers                                  */
-/*        Options: Timer1, or Timer3, with time in ms                   */
-/************************************************************************/
-void timer_init_16bit(uint8_t time_ms,timer_t timer_number);
+ /************************************************************************/
+ /* @brief Initialization 16 bit timers                                  */
+ /*        Options: Timer1, or Timer3, with time in ms                   */
+ /************************************************************************/
+ void timer_init_16bit(uint8_t time_ms,timer_t timer_number);
 
 
-/************************************************************************/
-/* @brief Initialization 8 bit Timer2, with time in ms                  */
-/************************************************************************/
-void timer_init_8bit(uint8_t time_ms);
+ /************************************************************************/
+ /* @brief Initialization 8 bit Timer2, with time in ms                  */
+ /************************************************************************/
+ void timer_init_8bit(uint8_t time_ms);

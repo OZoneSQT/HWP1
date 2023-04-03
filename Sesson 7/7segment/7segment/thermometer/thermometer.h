@@ -10,10 +10,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include "key/key-hal.h"
-#include "timer/timer.h"
-#include "led/segment-hal.h"
-#include "adc/adc-hal.h"
+#include "../key/key-hal.h"
+#include "../timer/timer.h"
+#include "../led/segment.h"
+#include "temperature-reader.h"
 
 
 /*

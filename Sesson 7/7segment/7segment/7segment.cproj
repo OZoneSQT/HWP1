@@ -20,10 +20,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
@@ -134,55 +134,37 @@
     <Compile Include="key\key-hal.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="led\bar-hal.c">
+    <Compile Include="led\letters.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="led\bar-hal.h">
+    <Compile Include="led\segment-hal.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="led\segment-hal.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="led\segment.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="led\segment.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="old\assignment\adc.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="old\assignment\adc.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="old\assignment\seg.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="old\assignment\seg.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="old\assignment\segment.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="old\assignment\segment.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="old\segment.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="old\segment.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="segment\letters.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="segment\segment.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="segment\segment.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="settings.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="thermometer.c">
+    <Compile Include="thermometer\temperature-reader.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="thermometer.h">
+    <Compile Include="thermometer\temperature-reader.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="thermometer\thermometer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="thermometer\thermometer.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="timer\timer.c">
@@ -196,10 +178,8 @@
     <Folder Include="adc" />
     <Folder Include="key" />
     <Folder Include="led" />
-    <Folder Include="old\assignment" />
-    <Folder Include="old" />
+    <Folder Include="thermometer" />
     <Folder Include="timer" />
-    <Folder Include="segment" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

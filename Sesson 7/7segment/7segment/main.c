@@ -7,21 +7,21 @@
 
  #include "settings.h"
  #include <stdint.h>
- #include "thermometer.h"
+ #include "thermometer/thermometer.h"
 
 
  /*******************************************************************************/
  int main(void)
  {
- /* KISS - Keep It Simpel S****d */
+	 /* KISS - Keep It Simpel S****d */
  
- // Initialize thermometer 
- thermometer_init();
+	 // Initialize thermometer 
+	 thermometer_init();
  
- // Run thermometer
- thermometer_run();
+	 // Run thermometer
+	 thermometer_run();
  
- return 0;
+	 return 0;
  }
 
  /*******************************************************************************/
