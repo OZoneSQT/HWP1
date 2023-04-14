@@ -155,6 +155,12 @@
     <Compile Include="settings.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="spi\spi-hal.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="spi\spi-hal.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="thermometer\temperature-reader.c">
       <SubType>compile</SubType>
     </Compile>
@@ -178,6 +184,7 @@
     <Folder Include="adc" />
     <Folder Include="key" />
     <Folder Include="led" />
+    <Folder Include="spi" />
     <Folder Include="thermometer" />
     <Folder Include="timer" />
   </ItemGroup>
