@@ -1,9 +1,13 @@
 /*
- * segment.c
+ * @file segment.c
+ * @brief Segment value handler
  *
- * Created: 24/03/2023 10.54.42
- * Author: Michel Sommer, 273966
- */ 
+ * @Origin Date : 24/03/2023 10.54.42
+ * @Author : Michel Sommer, 273966
+ *
+ * \defgroup segment library
+ * @{
+	 */
 
 #include "segment.h"
 
@@ -22,8 +26,8 @@ uint16_t digit4 = LB;
 // highest significant digit
 
 /************************************************************************/
-//Function to divide the number in 4 different digit
-static uint16_t set_segment_values(float value)
+/** Function to divide the number in 4 different digit */
+static void set_segment_values(float value)
 {
 	decimal1 = (uint16_t)((value-(uint16_t)value)*10)%10;
 	decimal2 = (uint16_t)(((value-(uint16_t)value)*10)-decimal1)%10;
@@ -35,9 +39,10 @@ static uint16_t set_segment_values(float value)
 }
 
 /************************************************************************/
+/** Map digits to output */
 static letters_t map_output_value(uint16_t value)
 {
-	// divide and conger 
+	/** divide and conger */
 	if(value < 5 ) 
 	{
 		if(value == 0) value = L0;
@@ -64,6 +69,7 @@ static letters_t map_output_value(uint16_t value)
 }
 
 /************************************************************************/
+/** Function to map uint values to 7 segment display */
 static void print_uint(float value)
 {
 	segment1 = digit1;
@@ -73,6 +79,7 @@ static void print_uint(float value)
 }
 
 /************************************************************************/
+/** Function to map int values to 7 segment display */
 static void print_sint(float value)
 {
 	if (value < 0)
@@ -93,6 +100,7 @@ static void print_sint(float value)
 }
 
 /************************************************************************/
+/** Function to map float values to 7 segment display */
 static void print_float(float value, uint8_t decimals)
 {
 	if (value < 0)
@@ -152,6 +160,7 @@ static void print_float(float value, uint8_t decimals)
 }
 
 /************************************************************************/
+/** Function to print float value to 7 segment display */
 void segment_print(float value, print_t format, uint8_t decimals)
 {
 	set_segment_values(value);
@@ -191,15 +200,19 @@ void segment_print(float value, print_t format, uint8_t decimals)
 }
 
 /************************************************************************/
+/** Function to print values to 7 segment display */
 void segment_print_letter(letters_t segment1, letters_t segment2, letters_t segment3, letters_t segment4)
 {
 	segment_hal_print(segment1, segment2, segment3, segment4);
 }
 
 /************************************************************************/
+/** Initialization of segments */
 void segment_init(uint16_t refresh_ms)
 {
 	segment_hal_init(refresh_ms);
 }
 
 /************************************************************************/
+
+/** @} */

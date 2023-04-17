@@ -1,106 +1,103 @@
 /*
- * timer.c
+ * @file timer.c
+ * @brief Internal timer functions
  *
- * Created: 31/03/2023 09.25.15
- * Author: Michel Sommer, 273966
- */
+ * @Origin Date : 31/03/2023 09.25.15
+ * @Author : Michel Sommer, 273966
+ *
+ * \defgroup timer library
+ * @{
+	 */
 
   #include "timer.h"
 
-
-  /*******************************************************************************/
-  static uint16_t get_prescaler(int16_t time_ms)
-  {
-	// Calculate the timer prescaler based on the input time
-	uint16_t prescaler = 1;
- 
-	if (time_ms <= 1)
-	{
-		// no prescaler needed for 1ms or less
-		prescaler = 1;
-	}
-	else if (time_ms <= 8)
-	{
-		// 8 prescaler for 2-8ms
-		prescaler = 8;
-	}
-	else if (time_ms <= 64)
-	{
-		// 64 prescaler for 9-64ms
-		prescaler = 64;
-	}
-	else if (time_ms <= 256)
-	{
-		// 256 prescaler for 65-256ms
-		prescaler = 256;
-	}
-	else
-	{
-		// 1024 prescaler for 257ms or more
-		prescaler = 1024;
-	}
- 
-	return prescaler;
- }
-
  /*******************************************************************************/
- void timer_init_16bit(uint8_t time_ms,timer_t timer_number)
- {
-	// Determine the timer registers to use based on the timer number
-	volatile uint16_t* tccra_reg;
-	volatile uint16_t* tccrb_reg;
-	volatile uint16_t* ocr_reg;
-	volatile uint16_t* timsk_reg;
- 
-	switch(timer_number)
-	{
-		 case 1:
-		 tccra_reg = &TCCR1A;
-		 tccrb_reg = &TCCR1B;
-		 ocr_reg = &OCR1A;
-		 timsk_reg = &TIMSK1;
-		 break;
- 
-		 case 3:
-		 tccra_reg = &TCCR3A;
-		 tccrb_reg = &TCCR3B;
-		 ocr_reg = &OCR3A;
-		 timsk_reg = &TIMSK3;
-		 break;
- 
-		 default:
-		 return; // invalid timer number
+ /** Calculate prescaler and ocr */
+ void timer_calc_prescaler_and_ocr(uint32_t time_ms, uint16_t *ocr, uint8_t *prescaler) {
+	 uint32_t overflow_count;
+	 uint32_t prescalers[5] = {1, 8, 64, 256, 1024};
+	 uint8_t prescaler_bits[5] = {(1 << CS10), (1 << CS11), (1 << CS11) | (1 << CS10), (1 << CS12), (1 << CS12) | (1 << CS10)};
+	 uint8_t i;
+
+	 for (i = 0; i < 5; i++) {
+		 overflow_count = (F_CPU / prescalers[i]) * (uint32_t)time_ms / 1000;
+
+		 if (overflow_count <= 65535) {
+			 *ocr = (uint16_t)overflow_count;
+			 *prescaler = prescaler_bits[i];
+			 break;
+		 }
 	 }
- 
-	 uint16_t prescaler = get_prescaler(time_ms);
- 
-	 // Calculate the timer compare value based on the input time and prescaler
-	 uint16_t compare_value = (uint16_t)((F_CPU / prescaler) * time_ms / 1000);
- 
-	 // Set the timer to CTC mode and set the prescaler and compare value
-	 *tccra_reg = 0;
-	 *tccrb_reg = (1 << WGM12) | (prescaler & 0x07);
-	 *ocr_reg = compare_value;
- 
-	 // Enable the timer interrupt
-	 *timsk_reg = (1 << OCIE1A);
  }
 
  /*******************************************************************************/
- void timer_init_8bit(uint8_t time_ms)
- {
-	 uint16_t prescaler = get_prescaler(time_ms);
- 
-	 // Calculate the timer compare value based on the input time and prescaler
-	 uint8_t compare_value = (uint8_t)((F_CPU / prescaler) * time_ms / 1000);
- 
-	 // Set the timer to CTC mode and set the prescaler and compare value
-	 TCCR2A = (1 << WGM21);
-	 TCCR2B = prescaler & 0x07;
-	 OCR2A = compare_value;
- 
-	 // Enable the timer interrupt
-	 TIMSK2 = (1 << OCIE2A);
+ /** Initialization of 32-bit timer */
+ void timer_init_32bit(uint32_t time_ms) {
+	 uint32_t overflow_count;
+
+	 overflow_count = (F_CPU / 1024) * (uint32_t)time_ms / 1000;
+
+	 TCCR1A = 0;
+	 TCCR1B = (1 << CS12) | (1 << CS10); /** Prescaler 1024 */
+	 TCNT1 = 0;
+
+	 TCCR3A = 0;
+	 TCCR3B = (1 << CS32) | (1 << CS30); /** Prescaler 1024 */
+	 TCNT3 = 0;
+
+	 OCR1A = overflow_count & 0xFFFF;
+	 OCR3A = (overflow_count >> 16) & 0xFFFF;
+
+	 TIMSK1 |= (1 << TOIE1); /** Enable Timer1 overflow interrupt */
+	 TIMSK3 |= (1 << TOIE3); /** Enable Timer3 overflow interrupt */
+
+	 sei(); // Enable global interrupts
  }
 
  /*******************************************************************************/
+ /** Initialization of 16-bit timer */
+ void timer_init_16bit(uint8_t time_ms, timer_t timer_number) {
+	 uint16_t ocr;
+	 uint8_t prescaler;
+
+	 timer_calc_prescaler_and_ocr(time_ms, &ocr, &prescaler);
+
+	 if (timer_number == TIMER_1) {
+		 TCCR1A = 0;
+		 TCCR1B = prescaler;
+		 TCNT1 = 0;
+		 OCR1A = ocr;
+
+		 TIMSK1 |= (1 << TOIE1); /** Enable Timer1 overflow interrupt */
+		 } else if (timer_number == TIMER_3) {
+		 TCCR3A = 0;
+		 TCCR3B = prescaler;
+		 TCNT3 = 0;
+		 OCR3A = ocr;
+
+		 TIMSK3 |= (1 << TOIE3); /** Enable Timer3 overflow interrupt */
+	 }
+
+	 sei(); /** Enable global interrupts */
+ }
+
+ /*******************************************************************************/
+ /** Initialization of 8-bit timer */
+ void timer_init_8bit(uint8_t time_ms) {
+	 uint16_t ocr;
+	 uint8_t prescaler;
+
+	 timer_calc_prescaler_and_ocr(time_ms, &ocr, &prescaler);
+
+	 TCCR1A = 0;
+	 TCCR1B = prescaler;
+	 TCNT1 = 0;
+	 OCR1A = ocr;
+
+	 TIMSK1 |= (1 << TOIE1); /** Enable Timer1 overflow interrupt */
+	 sei(); /** Enable global interrupts */
+ }
+
+ /*******************************************************************************/
+
+/** @} */

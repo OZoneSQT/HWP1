@@ -1,9 +1,13 @@
 /*
- * temperature_reader.h
+ * @file temperature_reader.h
+ * @brief Header file for thermometer application
  *
- * Created: 02/04/2023 11.20.08
- * Author: Michel Sommer, 273966
- */
+ * @Origin Date : 02/04/2023 11.20.08
+ * @Author : Michel Sommer, 273966
+ *
+ * \defgroup thermometer application
+ * @{
+	 */
 
  #pragma once
 
@@ -20,7 +24,9 @@
 
  /************************************************************************/
  /* @brief Read temperature                                              */
- /*        returns temperature as float                                  */
+ /*																		 */
+ /*	@param[out] temperature as float									 */
  /************************************************************************/
  float temperature_reader_read();
  
+ /** @} */

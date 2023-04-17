@@ -1,9 +1,14 @@
 /*
- * 7segment.c
+ * @title : 7-segment application
+ * @file main.c
+ * @brief Main application
  *
- * Created: 24/03/2023 10.39.27
- * Author: Michel Sommer, 273966
- */
+ * @Origin Date : 24/03/2023 10.39.27
+ * @Author : Michel Sommer, 273966
+ *
+ * \defgroup host application
+ * @{
+	 */
 
  #include "settings.h"
  #include <stdint.h>
@@ -11,17 +16,17 @@
 
 
  /*******************************************************************************/
+ /** Main method: Initialize and Starts the application */
  int main(void)
  {
 	 /* KISS - Keep It Simpel S****d */
  
-	 // Initialize thermometer 
-	 thermometer_init();
- 
-	 // Run thermometer
-	 thermometer_run();
+	 thermometer_init(); /** Initialize thermometer */
+	 thermometer_run(); /** Run thermometer */
  
 	 return 0;
  }
 
  /*******************************************************************************/
+
+/** @} */
