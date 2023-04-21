@@ -21,8 +21,8 @@
  ISR(ADC_vect)
  {
 	 uint8_t pin = ADMUX & 0x0F;
-	 adc_values[pin] = ADC; /** Read the 10-bit ADC value
-	 ADCSRA |= (1 << ADSC); /** Start the next ADC conversion
+	 adc_values[pin] = ADC; /** Read the 10-bit ADC value */
+	 ADCSRA |= (1 << ADSC); /** Start the next ADC conversion */
  }
  
  /*******************************************************************************/

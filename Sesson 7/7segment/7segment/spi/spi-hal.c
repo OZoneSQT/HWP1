@@ -30,7 +30,7 @@ spi_t *spi_init(uint16_t *pin, ...)
 	/** Set SS pin */
 	spi->ss_pin = *pin;
 
-	/** Set MOSI and SCK as output
+	/** Set MOSI and SCK as output */
 	DDRB |= (1 << MOSI_PIN) | (1 << SCLK_PIN);
 
 	/** Set MISO as input */
@@ -39,12 +39,12 @@ spi_t *spi_init(uint16_t *pin, ...)
 	/** Set SPI mode */
 	if (spi->mode == SPI_MASTER) 
 	{
-		/** Set SS and SCK as output
+		/** Set SS and SCK as output */
 		DDRB |= (1 << spi->ss_pin) | (1 << SCLK_PIN);
 		PORTB |= (1 << spi->ss_pin);
 		SPCR = (1 << SPE) | (1 << MSTR);
 		} else {
-		// Set SS and MOSI as input
+		/** Set SS and MOSI as input */
 		DDRB &= ~((1 << spi->ss_pin) | (1 << MOSI_PIN));
 		SPCR = (1 << SPE);
 	}
@@ -52,7 +52,7 @@ spi_t *spi_init(uint16_t *pin, ...)
 	/** Set SPI speed */
 	SPCR |= spi->speed;
 
-	/** Set SPI edge
+	/** Set SPI edge */
 	if (spi->edge == SPI_SCLK_MODE_1_TRAIL_RISE || spi->edge == SPI_SCLK_MODE_3_TRAIL_FALL) 
 	{
 		SPCR |= (1 << CPHA);
