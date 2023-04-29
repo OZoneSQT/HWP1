@@ -1,141 +1,182 @@
 /*
- * timer.c
+ * \file timer.c
  *
- * Created: 28/04/2023 18.39.45
- *  Author: skrue
+ * \date : 28/04/2023 18.39.45
+ * \author : Michel Sommer, 273966
  */ 
 
 #include "TimerLib2560.h"
 
-uint32_t calculatePrescaler(uint32_t ms);
-
-void init8BitTimer(uint32_t ms);
+/************************************************************************/
+// Initialization of functions
+void init8BitTimer(uint8_t time_ms);
 void init16BitTimer(Timer16Bit timer, ...);
-void init32BitTimer(Timer32Bit timer, ...);
+void init32BitTimer(Timer16Bit timer1, Timer16Bit timer2, ...);
+uint16_t calculatePrescaler(uint32_t time_ms);
 
-/*
-int main() {
-	// Example usage
-	init8BitTimer0(10); // 10 ms
-	init16BitTimer(TIMER1, 0, 0, 1, 500); // 1 s 500 ms
-	Timer32Bit timer32 = {TIMER2, TIMER3};
-	init32BitTimer(timer32, 1, 30, 10); // 1 h 30 m 10 s
+/************************************************************************/
+void init8BitTimer(uint8_t time_ms) 
+{
+	uint16_t prescaler = calculatePrescaler(time_ms);
+	uint8_t prescalerBits = 0;
+	uint32_t tickCount;
 
-	while (1) {
+	if (prescaler == 1) 
+	{
+		prescalerBits = (1 << CS00);
+		tickCount = F_CPU / 1000;
+		} 
+		else if (prescaler == 8) 
+		{
+		prescalerBits = (1 << CS01);
+		tickCount = F_CPU / 8000;
+		} 
+		else if (prescaler == 64) 
+		{
+		prescalerBits = (1 << CS00) | (1 << CS01);
+		tickCount = F_CPU / 64000;
+		} 
+		else if (prescaler == 256) 
+		{
+		prescalerBits = (1 << CS02);
+		tickCount = F_CPU / 256000;
+		} 
+		else 
+		{ // 1024
+		prescalerBits = (1 << CS02) | (1 << CS00);
+		tickCount = F_CPU / 1024000;
 	}
-	return 0;
-}
-*/
 
-uint32_t calculatePrescaler(uint32_t ms) {
-	uint32_t prescalerValues[] = {1, 8, 64, 256, 1024};
-	uint32_t bestPrescaler = 1;
-
-	for (uint8_t i = 0; i < sizeof(prescalerValues) / sizeof(prescalerValues[0]); i++) {
-		if (ms >= prescalerValues[i]) {
-			bestPrescaler = prescalerValues[i];
-		}
-	}
-	return bestPrescaler;
-}
-
-void init8BitTimer(uint32_t ms) {
-	uint32_t prescaler = calculatePrescaler(ms);
-
-	TCCR0A |= (1 << WGM01); // Set CTC mode
-	TCCR0B &= ~(1 << WGM02);
-
-	uint8_t prescalerSetting;
-	switch (prescaler) {
-		case 1: prescalerSetting = 0x01; break;
-		case 8: prescalerSetting = 0x02; break;
-		case 64: prescalerSetting = 0x03; break;
-		case 256: prescalerSetting = 0x04; break;
-		case 1024: prescalerSetting = 0x05; break;
-		default: prescalerSetting = 0x00; break;
-	}
-	TCCR0B |= prescalerSetting; // Set prescaler
-
-	uint32_t compareValue = (F_CPU / prescaler / 1000) * ms - 1;
-	if (compareValue > 255) {
-		compareValue = 255;
-	}
-	OCR0A = (uint8_t)compareValue;
+	TCCR0A |= (1 << WGM01);  // Set CTC mode
+	TCCR0B |= prescalerBits; // Set prescaler
+	OCR0A = (uint8_t)((time_ms * tickCount) - 1); // Set the compare value
+	TIMSK0 |= (1 << OCIE0A); // Enable compare interrupt
 }
 
-void init16BitTimer(Timer16Bit timer, ...) {
+/************************************************************************/
+void init16BitTimer(Timer16Bit timer, ...) 
+{
 	va_list args;
 	va_start(args, timer);
 
-	uint8_t hours = va_arg(args, int);
-	uint8_t minutes = va_arg(args, int);
+	uint16_t milliseconds = va_arg(args, int);
 	uint8_t seconds = va_arg(args, int);
-	uint16_t ms = va_arg(args, int);
+	uint8_t minutes = va_arg(args, int);
+	uint8_t hours = va_arg(args, int);
+
+	uint32_t time_ms = ((uint32_t)hours * 3600000) + ((uint32_t)minutes * 60000) + ((uint32_t)seconds * 1000) + milliseconds;
 
 	va_end(args);
 
-	uint32_t totalTimeMs = ((uint32_t)hours * 3600 + (uint32_t)minutes * 60 + (uint32_t)seconds) * 1000 + ms;
-	uint32_t prescaler = calculatePrescaler(totalTimeMs);
+	uint16_t prescaler = calculatePrescaler(time_ms);
+	uint16_t prescalerBits = 0;
+	uint32_t tickCount;
 
-	uint16_t prescalerSetting;
-	switch (prescaler) {
-		case 1: prescalerSetting = 0x01; break;
-		case 8: prescalerSetting = 0x02; break;
-		case 64: prescalerSetting = 0x03; break;
-		case 256: prescalerSetting = 0x04; break;
-		case 1024: prescalerSetting = 0x05; break;
-		default: prescalerSetting = 0x00; break;
+	if (prescaler == 1) 
+	{
+		prescalerBits = (1 << CS10);
+		tickCount = F_CPU / 1000;
+		} 
+		else if (prescaler == 8) 
+		{
+		prescalerBits = (1 << CS11);
+		tickCount = F_CPU / 8000;
+		} 
+		else if (prescaler == 64) 
+		{
+		prescalerBits = (1 << CS10) | (1 << CS11);
+		tickCount = F_CPU / 64000;
+		} 
+		else if (prescaler == 256) 
+		{
+		prescalerBits = (1 << CS12);
+		tickCount = F_CPU / 256000;
+		} 
+		else 
+		{ // 1024
+		prescalerBits = (1 << CS12) | (1 << CS10);
+		tickCount = F_CPU / 1024000;
 	}
 
-	uint32_t compareValue = (F_CPU / prescaler / 1000) * totalTimeMs - 1;
-	if (compareValue > 65535) {
-		compareValue = 65535;
-	}
-
-	uint16_t compareValue16 = (uint16_t)compareValue;
-
-	switch (timer) {
+	switch (timer) 
+	{
 		case TIMER1:
-		TCCR1A &= ~(1 << WGM10);
-		TCCR1A &= ~(1 << WGM11);
-		TCCR1B |= (1 << WGM12);
-		TCCR1B &= ~(1 << WGM13);
-		TCCR1B |= prescalerSetting;
-		OCR1A = compareValue16;
+		TCCR1B |= (1 << WGM12);  // Set CTC mode
+		TCCR1B |= prescalerBits; // Set prescaler
+		OCR1A = (uint16_t)((time_ms * tickCount) - 1); // Set the compare value
+		TIMSK1 |= (1 << OCIE1A); // Enable compare interrupt
 		break;
 		case TIMER2:
-		// Implement TIMER2 case
+		TCCR2A |= (1 << WGM21);  // Set CTC mode
+		TCCR2B |= prescalerBits; // Set prescaler
+		OCR2A = (uint16_t)((time_ms * tickCount) - 1); // Set the compare value
+		TIMSK2 |= (1 << OCIE2A); // Enable compare interrupt
 		break;
 		case TIMER3:
-		// Implement TIMER3 case
+		TCCR3B |= (1 << WGM32);  // Set CTC mode
+		TCCR3B |= prescalerBits; // Set prescaler
+		OCR3A = (uint16_t)((time_ms * tickCount) - 1); // Set the compare value
+		TIMSK3 |= (1 << OCIE3A); // Enable compare interrupt
 		break;
 		case TIMER4:
-		// Implement TIMER4 case
+		TCCR4B |= (1 << WGM42);  // Set CTC mode
+		TCCR4B |= prescalerBits; // Set prescaler
+		OCR4A = (uint16_t)((time_ms * tickCount) - 1); // Set the compare value
+		TIMSK4 |= (1 << OCIE4A); // Enable compare interrupt
 		break;
 		case TIMER5:
-		// Implement TIMER5 case
+		TCCR5B |= (1 << WGM52);  // Set CTC mode
+		TCCR5B |= prescalerBits; // Set prescaler
+		OCR5A = (uint16_t)((time_ms * tickCount) - 1); // Set the compare value
+		TIMSK5 |= (1 << OCIE5A); // Enable compare interrupt
 		break;
 	}
 }
 
-void init32BitTimer(Timer32Bit timer, ...) {
+/************************************************************************/
+void init32BitTimer(Timer16Bit timer1, Timer16Bit timer2, ...) 
+{
 	va_list args;
-	va_start(args, timer);
+	va_start(args, timer2);
 
-	uint8_t hours = va_arg(args, int);
-	uint8_t minutes = va_arg(args, int);
+	uint16_t milliseconds = va_arg(args, int);
 	uint8_t seconds = va_arg(args, int);
-	uint16_t ms = va_arg(args, int);
+	uint8_t minutes = va_arg(args, int);
+	uint8_t hours = va_arg(args, int);
+
+	uint32_t time_ms = ((uint32_t)hours * 3600000) + ((uint32_t)minutes * 60000) + ((uint32_t)seconds * 1000) + milliseconds;
 
 	va_end(args);
 
-	uint32_t totalTimeMs = ((uint32_t)hours * 3600 + (uint32_t)minutes * 60 + (uint32_t)seconds) * 1000 + ms;
+	// Initialize timer1
+	init16BitTimer(timer1, hours, minutes, seconds, milliseconds);
 
-	// Split the 32-bit value into two 16-bit values
-	uint16_t upper16 = totalTimeMs >> 16;
-	uint16_t lower16 = totalTimeMs & 0xFFFF;
+	// Calculate the overflow time for timer1
+	uint32_t overflow_time_ms = (uint32_t)65535 * 1000 / (F_CPU / calculatePrescaler(time_ms));
 
-	// Initialize the two 16-bit timers
-	init16BitTimer(timer.timer1, 0, 0, upper16 / 1000, upper16 % 1000);
-	init16BitTimer(timer.timer2, 0, 0, lower16 / 1000, lower16 % 1000);
+	// Calculate the number of timer1 overflows required to reach the desired time for timer2
+	uint32_t overflow_count = time_ms / overflow_time_ms;
+
+	// Initialize timer2
+	init16BitTimer(timer2, 0, 0, 0, overflow_count * overflow_time_ms);
 }
+
+/************************************************************************/
+uint16_t calculatePrescaler(uint32_t time_ms) 
+{
+	uint32_t max_ticks = 65535; // Maximum ticks for 16-bit timer
+
+	if (time_ms * (F_CPU / 1000) < max_ticks) {
+		return 1;
+		} else if (time_ms * (F_CPU / 8000) < max_ticks) {
+		return 8;
+		} else if (time_ms * (F_CPU / 64000) < max_ticks) {
+		return 64;
+		} else if (time_ms * (F_CPU / 256000) < max_ticks) {
+		return 256;
+		} else {
+		return 1024;
+	}
+}
+
+/************************************************************************/

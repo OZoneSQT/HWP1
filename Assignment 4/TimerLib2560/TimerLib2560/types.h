@@ -1,8 +1,8 @@
 /*
- * types.h
+ * \file types.h
  *
- * Created: 28/04/2023 19.00.08
- *  Author: skrue
+ * \date : 28/04/2023 19.00.08
+ * \author : Michel Sommer, 273966
  */ 
 
 #pragma once
@@ -11,21 +11,24 @@
 #define F_CPU 16000000	// CLK
 #endif /* F_CPU */
 
+#include <avr/io.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdarg.h>
+#include <avr/interrupt.h>
+#include <avr/wdt.h>
+
+// 16-bit timer options using enumeration
 typedef enum {
-	TIMER1,
-	TIMER2,
-	TIMER3,
-	TIMER4,
+	TIMER1, 
+	TIMER2, 
+	TIMER3, 
+	TIMER4, 
 	TIMER5
 } Timer16Bit;
 
-typedef struct {
-	Timer16Bit timer1;
-	Timer16Bit timer2;
-} Timer32Bit;
 
-
-// Define the PWM_PIN enumeration type
+// PWM_PIN options using enumeration
 typedef enum {
 	OC3B, 
 	OC3C, 

@@ -1,8 +1,8 @@
 /*
- * pwm.c
+ * \file pwm.c
  *
- * Created: 28/04/2023 19.04.39
- *  Author: skrue
+ * \date : 28/04/2023 19.04.39
+ * \author : Michel Sommer, 273966
  */ 
 
 #include "TimerLib2560.h"
@@ -183,7 +183,7 @@ static void init_pwm(PWM_PIN pin, uint8_t percentage, uint16_t pulse_length_ms)
 }
 
 /*******************************************************************************/
-void pwm_pulse(PWM_PIN pin, uint8_t percentage)
+void pwm_pulse(PWM_PIN pin, uint8_t percentage) 
 {
 	init_pwm(pin, percentage, 20);
 }
@@ -201,9 +201,11 @@ void pwm_percentage_pulselength(PWM_PIN pin, uint8_t percentage, uint16_t pulse_
 }
 
 /*******************************************************************************/
-void pwm_stop(PWM_PIN pin) {
+void pwm_stop(PWM_PIN pin) 
+{
 	// Disable PWM and set the output pin to LOW
-	switch (pin) {
+	switch (pin)
+	{
 		case OC1A:
 		TCCR1A &= ~(1 << COM1A1);
 		PORTB &= ~(1 << (pin - OC1A + DDB5));
