@@ -1,11 +1,11 @@
 /*
- * \file pwm.c
+ * @file pwm.c
  *
- * \date : 28/04/2023 19.04.39
- * \author : Michel Sommer, 273966
+ * @Origin Date : 28/04/2023 19.04.39
+ * @Author : Michel Sommer, 273966
  */ 
 
-#include "TimerLib2560.h"
+#include "timerLib2560.h"
 
 
 /*******************************************************************************/

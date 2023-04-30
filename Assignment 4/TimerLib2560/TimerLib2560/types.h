@@ -1,8 +1,8 @@
 /*
  * \file types.h
  *
- * \date : 28/04/2023 19.00.08
- * \author : Michel Sommer, 273966
+ * @Origin Date : 28/04/2023 19.00.08
+ * @Author : Michel Sommer, 273966
  */ 
 
 #pragma once
@@ -17,6 +17,7 @@
 #include <stdarg.h>
 #include <avr/interrupt.h>
 #include <avr/wdt.h>
+
 
 // 16-bit timer options using enumeration
 typedef enum {

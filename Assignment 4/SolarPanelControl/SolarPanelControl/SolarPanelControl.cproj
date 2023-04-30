@@ -7,25 +7,23 @@
     <ProjectGuid>dce6c7e3-ee26-4d79-826b-08594b9ad897</ProjectGuid>
     <avrdevice>ATmega2560</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
-    <OutputType>StaticLibrary</OutputType>
+    <OutputType>Executable</OutputType>
     <Language>C</Language>
-    <OutputFileName>lib$(MSBuildProjectName)</OutputFileName>
-    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AvrGccProjectExtensions>
-    </AvrGccProjectExtensions>
-    <AssemblyName>viaLib2560</AssemblyName>
-    <Name>viaLib2560</Name>
-    <RootNamespace>viaLib2560</RootNamespace>
+    <AssemblyName>SolarPanelControl</AssemblyName>
+    <Name>SolarPanelControl</Name>
+    <RootNamespace>SolarPanelControl</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
@@ -72,8 +70,18 @@
   <avrgcc.linker.libraries.Libraries>
     <ListValues>
       <Value>libm</Value>
+      <Value>libComLib2560.a</Value>
+      <Value>libioLib2560.a</Value>
+      <Value>libTimerLib2560.a</Value>
     </ListValues>
   </avrgcc.linker.libraries.Libraries>
+  <avrgcc.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>E:\GitHub\HWP1\Assignment 4\ComLib2560</Value>
+      <Value>E:\GitHub\HWP1\Assignment 4\ioLib2560</Value>
+      <Value>E:\GitHub\HWP1\Assignment 4\TimerLib2560</Value>
+    </ListValues>
+  </avrgcc.linker.libraries.LibrarySearchPaths>
   <avrgcc.assembler.general.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.7.374\include\</Value>
@@ -112,8 +120,18 @@
   <avrgcc.linker.libraries.Libraries>
     <ListValues>
       <Value>libm</Value>
+      <Value>libTimerLib2560.a</Value>
+      <Value>libioLib2560.a</Value>
+      <Value>libComLib2560.a</Value>
     </ListValues>
   </avrgcc.linker.libraries.Libraries>
+  <avrgcc.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>../../../TimerLib2560</Value>
+      <Value>../../../ioLib2560</Value>
+      <Value>../../../ComLib2560</Value>
+    </ListValues>
+  </avrgcc.linker.libraries.LibrarySearchPaths>
   <avrgcc.assembler.general.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.7.374\include\</Value>
@@ -124,9 +142,79 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="data.h">
+    <Compile Include="keys\keys.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="keys\keys.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="keys\matrix.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="keys\matrix.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="leds\leds.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="leds\leds.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="leds\letters.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="leds\segment-hal.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="leds\segment-hal.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="leds\segment.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="leds\segment.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="lib\comLib2560.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="lib\ioLib2560.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="lib\timerLib2560.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="settings.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="solar-control\solar-control.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="solar-control\solar-control.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="thermometer\temperature-reader.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="thermometer\temperature-reader.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="thermometer\thermometer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="thermometer\thermometer.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib" />
+    <Folder Include="keys" />
+    <Folder Include="leds" />
+    <Folder Include="solar-control" />
+    <Folder Include="thermometer" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

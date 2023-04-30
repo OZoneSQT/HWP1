@@ -1,11 +1,11 @@
 /*
- * \file timer.c
+ * @file timer.c
  *
- * \date : 28/04/2023 18.39.45
- * \author : Michel Sommer, 273966
+ * @Origin Date : 28/04/2023 18.39.45
+ * @Author : Michel Sommer, 273966
  */ 
 
-#include "TimerLib2560.h"
+#include "timerLib2560.h"
 
 /************************************************************************/
 // Initialization of functions

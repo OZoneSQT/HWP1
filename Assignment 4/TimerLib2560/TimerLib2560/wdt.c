@@ -1,11 +1,12 @@
 /*
- * \file wdt.c
+ * @file wdt.c
  *
- * \date : 28/04/2023 18.47.21
- * \author : Michel Sommer, 273966
+ * @Origin Date : 28/04/2023 18.47.21
+ * @Author : Michel Sommer, 273966
  */ 
 
-#include "TimerLib2560.h"
+#include "timerLib2560.h"
+
 
 /************************************************************************/
 // Initialization of functions
@@ -64,7 +65,7 @@ void initWDTInterrupt(uint32_t ms)
 
 	// Set up WDT interrupt
 	WDTCSR |= (1 << WDCE) | (1 << WDE); // Enable WDT change
-	WDTCSR = (1 << WDIE) | wdt_setting); // Set WDT interrupt and time period
+	WDTCSR = (1 << WDIE) | (1 << wdt_setting); // Set WDT interrupt and time period
 
 	sei(); // Enable global interrupts
 }
