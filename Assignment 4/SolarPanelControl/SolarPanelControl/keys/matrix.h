@@ -6,11 +6,10 @@
  */ 
 
 
-#ifndef MATRIX_H_
-#define MATRIX_H_
+#pragma once
 
-
-
-
-
-#endif /* MATRIX_H_ */
+void init_keyboard();
+uint8_t getxkey();
+uint8_t get_row();
+uint16_t keyboard_display();
+void resetvalue();

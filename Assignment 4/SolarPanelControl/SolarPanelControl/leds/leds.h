@@ -6,11 +6,7 @@
  */ 
 
 
-#ifndef LEDS_H_
-#define LEDS_H_
+#pragma once
 
-
-
-
-
-#endif /* LEDS_H_ */
+void inits_leds();
+void set_led(uint8_t led_no, uint8_t state);
