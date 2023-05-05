@@ -11,23 +11,23 @@
  * @{
 	 */
 
-	 #include "settings.h"
-	 #include <stdint.h>
-	 #include "thermometer/thermometer.h"
+#include "settings.h"
+#include <stdint.h>
+#include "solar-control/solar-control.h"
 
 
-	 /*******************************************************************************/
-	 /** Main method: Initialize and Starts the application */
-	 int main(void)
-	 {
-	 /* KISS - Keep It Simpel S****d */
+/*******************************************************************************/
+/** Main method: Initialize and Starts the application */
+int main(void)
+{
+	/* KISS - Keep It Simpel S****d */
 	 
-	 thermometer_init(); /** Initialize thermometer */
-	 thermometer_run(); /** Run thermometer */
+	solar_control_init(); /** Initialize solar control */
+	solar_control_run(); /** Run Solar control */
 	 
-	 return 0;
-	 }
+	return 0;
+}
 
-	 /*******************************************************************************/
+/*******************************************************************************/
 
-	 /** @} */
+/** @} */
