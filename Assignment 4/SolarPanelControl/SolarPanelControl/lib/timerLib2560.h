@@ -118,7 +118,7 @@ void pwm_pulse(PWM_PIN pin, uint8_t percentage);
 /* @param[in] PWM_PIN pin id				                            */
 /* @param[in] uint16_t pulse_length_ms length of pulse in ms	        */
 /************************************************************************/
-void pwm_percentage(PWM_PIN pin, uint16_t pulse_length_ms);
+void pwm_pulselength(PWM_PIN pin, uint16_t pulse_length_ms);
 
 
 /************************************************************************/

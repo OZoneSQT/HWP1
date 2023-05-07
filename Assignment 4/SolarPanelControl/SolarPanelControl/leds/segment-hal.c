@@ -115,7 +115,7 @@ void segment_hal_print(letters_t segment1, letters_t segment2, letters_t segment
 void segment_hal_init(uint16_t refresh_ms)
 {
 	/** Initialize 8-bit timer */
-	timer_init_8bit(refresh_ms);
+	init8BitTimer(refresh_ms);
 	
 	/** Initialize SPI ports */
 	SPI = spi_init(SS_SHIFT_REGISTER, SPI_MASTER, SPI_OCS128, SPI_LSB_FIRST, SPI_SCLK_MODE_0_LEAD_RISE);

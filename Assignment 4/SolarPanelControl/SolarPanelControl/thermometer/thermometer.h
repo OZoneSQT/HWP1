@@ -14,10 +14,20 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include "../lib/timerLib2560.h"
-#include "../led/segment.h"
+#include "../leds/segment.h"
 #include "temperature-reader.h"
 
+typedef enum {
+	LOW,
+	OK,
+	HIGH
+} temp_t;
+
+typedef enum {
+	DISPLAY_LOW,
+	DISPLAY_CURRENT,
+	DISPLAY_HIGH
+} display_t;
 
 /***********************************************************************/
 /* Sensor spec:														   */
@@ -45,9 +55,21 @@ void thermometer_display_high();
 
 
 /************************************************************************/
-/* @brief Display high/low temperature threshold 						*/
+/* @brief Display high temperature threshold 							*/
 /************************************************************************/
-void thermometer_set_threshold(uint16_t newValue);
+void thermometer_set_high_threshold(char newValue[]);
+
+
+/************************************************************************/
+/* @brief Display low temperature threshold 							*/
+/************************************************************************/
+void thermometer_low_threshold(char newValue[]);
+
+
+/************************************************************************/
+/* @brief value to display 												*/
+/************************************************************************/
+void thermometer_value_to_display(char value[]);
 
 
 /************************************************************************/
@@ -60,11 +82,5 @@ void thermometer_display_low();
 /* @brief Initialization of thermometer, setting timer                  */
 /************************************************************************/
 void thermometer_init();
-
-
-/************************************************************************/
-/* @brief run thermometer                                               */
-/************************************************************************/
-void thermometer_run();
 
 /** @} */

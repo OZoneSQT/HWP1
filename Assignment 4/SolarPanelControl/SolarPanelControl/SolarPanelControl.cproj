@@ -142,12 +142,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="leds\leds.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="leds\leds.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="leds\letters.h">
       <SubType>compile</SubType>
     </Compile>

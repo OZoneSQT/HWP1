@@ -1,30 +1,14 @@
 /*
- * solar_control.c
+ * @file solar_control.c
  *
- * Created: 30/04/2023 21.45.44
- *  Author: skrue
+ * @Origin Date : 30/04/2023 21.45.44
+ * @Author : Michel Sommer, 273966
  */ 
-#define btn1 PC0; /**< temp low threshold */
-#define btn2 PC1; /**< temp high threshold */
-#define btn3 PC2; /**< numeric display to current temperature */
-#define led1 PA0;
-#define led2 PA1;
-#define led3 PA2;
-#define led4 PA3;
-#define led6 PA6; /**< valve */
-#define led7 PA7; /**< pump */
 
-typedef enum {
-	LOW,
-	OK,
-	HIGH
-	} temp_t;
+#include "solar-control.h"
+#include "../thermometer/thermometer.h"
+#include "../lib/ioLib2560.h"
 
-typedef enum {
-	DISPLAY_LOW,
-	DISPLAY_CURRENT,
-	DISPLAY_HIGH
-} display_t;
 
 uint8_t timeout = 0;
 display_t state = DISPLAY_CURRENT;
@@ -38,9 +22,9 @@ display_t state = DISPLAY_CURRENT;
 static void btn_temp_low()
 {
 	state = DISPLAY_LOW;
-	SetOutputPinHigh(led1);
-	SetOutputPinLow(led2);
-	SetOutputPinLow(led3);
+	SetOutputPinHigh(LED1);
+	SetOutputPinLow(LED2);
+	SetOutputPinLow(LED3);
 	thermometer_display_low();
 }
 
@@ -53,9 +37,10 @@ static void btn_temp_low()
 static void btn_temp_high()
 {
 	state = DISPLAY_HIGH;
-	SetOutputPinHigh(led2);
-	SetOutputPinLow(led1);
-	SetOutputPinLow(led3);
+	SetOutputPinHigh(LED2);
+	SetOutputPinLow(LED1);
+	SetOutputPinLow(LED3);
+	thermometer_display_high();
 }
 
 /************************************************************************/
@@ -64,9 +49,9 @@ static void btn_temp_high()
 static void btn_temp_current()
 {
 	state = DISPLAY_CURRENT;
-	SetOutputPinHigh(led3);
-	SetOutputPinLow(led1);
-	SetOutputPinLow(led2);
+	SetOutputPinHigh(LED3);
+	SetOutputPinLow(LED1);
+	SetOutputPinLow(LED2);
 	thermometer_display_current();
 }
 
@@ -80,14 +65,14 @@ static void btn_temp_current()
 // reached and counterclockwise when the t_low setpoint is reached.
 static void valve_open()
 {
-	SetOutputPinHigh(led6);
-	pwm_percentage(, 2);
+	SetOutputPinHigh(LED6);
+	pwm_pulselength(OC5A, 2);
 }
 
 static void valve_closed()
 {
-	SetOutputPinLow(led6);
-	pwm_percentage(PWM_PIN pin, 1);
+	SetOutputPinLow(LED6);
+	pwm_pulselength(OC5A, 1);
 }
 
 /************************************************************************/
@@ -95,12 +80,12 @@ static void valve_closed()
 // is not (you do not connect a real pump)
 static void pump_open()
 {
-	SetOutputPinHigh(led7);
+	SetOutputPinHigh(LED7);
 }
 
 static void pump_closed()
 {
-	SetOutputPinLow(led7);
+	SetOutputPinLow(LED7);
 }
 
 /************************************************************************/
@@ -145,40 +130,75 @@ void solar_control_init()
 	init16BitTimer(TIMER2,0,1);
 	
 	// init input
-	initInputPin(btn1); /**< temp low threshold */
-	initInputPin(btn2); /**< temp high threshold */
-	initInputPin(btn3); /**< numeric display to current temperature */
+	initInputPin(BTN1); /**< temp low threshold */
+	initInputPin(BTN2); /**< temp high threshold */
+	initInputPin(BTN3); /**< numeric display to current temperature */
 	
 	// init output
-	initOutputPin(led1);
-	initOutputPin(led2);
-	initOutputPin(led3);
-	initOutputPin(led6); /**< valve */
-	initOutputPin(led7); /**< pump */
+	initOutputPin(LED1);
+	initOutputPin(LED2);
+	initOutputPin(LED3);
+	initOutputPin(LED6); /**< valve */
+	initOutputPin(LED7); /**< pump */
 }
 
 /************************************************************************/
 void solar_control_run()
 {
 	timerLib2560_enable_interrupts();
-	thermometer_run();
 	
 	while (1)
 	{
-		if(matrix_read() != "\0")
+		char input = matrix_read();
+		
+		if(input != "\0")
 		{
+			timeout = 5;
 			
+			while(timeout != 0)
+			{
+				char new[3] = {};
+					
+				for(uint8_t i = 0; i < 3; i++)
+				{
+					if(input == "*")
+					{
+						 btn_temp_current();
+						 timeout = 0;
+					}
+					
+					if(input != "A" || input != "B" || input != "C" || input != "D")
+					{
+						new[i] = input;
+						thermometer_value_to_display(new);
+					}
+					
+					timeout = 5;
+					
+					if(input == "#")
+					{
+						thermometer_set_threshold(new);
+						timeout = 0;
+					}
+				}
+				
+				if(matrix_read() == "#")
+				{
+					thermometer_set_threshold(new);
+					return;
+				}
+			}
 		}
 		
-		if(readInputPinStatus(btn1))
+		if(readInputPinStatus(BTN1))
 		{
 			btn_temp_low();
 		}
-		else if(readInputPinStatus(btn2))
+		else if(readInputPinStatus(BTN2))
 		{
 			btn_temp_high();
 		}
-		else if(readInputPinStatus(btn3))
+		else if(readInputPinStatus(BTN3))
 		{
 			btn_temp_low();
 		}
@@ -200,7 +220,6 @@ void solar_control_run()
 		}
 		
 	}
-	
 }
 
 /************************************************************************/

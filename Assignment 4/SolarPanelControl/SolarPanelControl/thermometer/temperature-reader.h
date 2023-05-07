@@ -13,8 +13,6 @@
 
  #include "../settings.h"
  #include <stdint.h>
- #include "../lib/timerLib2560.h"
- #include "../lib/ioLib2560.h"
 
 
  /************************************************************************/
