@@ -92,7 +92,7 @@ static void pump_closed()
 // Optional:
 // Use a Timer to return to current temperature in the numeric
 // display 5 sec. after t_low, or thigh have been shown/changed.
-void return_to_deff()
+static void return_to_deff()
 {
 	if(timeout == 0) thermometer_display_current();
 }
