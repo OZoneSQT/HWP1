@@ -103,6 +103,8 @@ void solar_control_init()
 	/*
 		J15 Mapping, for VIA Shield:
 		
+		// TODO make a more innovative key mapping, use pin number for name in ioLib2560
+		
 		J15 pin		Function	Port pin	Enum
 		1			TO			PD7			D_PIN31
 		3			OC0B		PG5			D_PIN53
@@ -143,12 +145,15 @@ void solar_control_init()
 }
 
 /************************************************************************/
+// Main routine
 void solar_control_run()
 {
 	timerLib2560_enable_interrupts();
 	
 	while (1)
 	{
+		
+		//matrix keyboard handling:
 		char input = matrix_read();
 
 		if(input != '\0')
@@ -206,6 +211,7 @@ void solar_control_run()
 			}
 		}
 		
+		//Button handling
 		if(readInputPinStatus(BTN1))
 		{
 			btn_temp_low();

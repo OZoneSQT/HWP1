@@ -12,7 +12,7 @@
 #include "lib/comLib2560.h"
 
 
-#define F_CPU 16000000	// CLK
+#define F_CPU 16000000	// CPU CLK
 #define ADCPIN A_PIN15	// ADC pin, thermometer
 #define DELAY_S 1000	// ADC measurement interval
 #define DELAY_MS 10		// Display refresh time

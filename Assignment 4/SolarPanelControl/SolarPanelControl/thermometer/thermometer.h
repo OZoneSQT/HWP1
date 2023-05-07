@@ -17,12 +17,14 @@
 #include "../leds/segment.h"
 #include "temperature-reader.h"
 
+// Heater state machine
 typedef enum {
 	LOW,
 	OK,
 	HIGH
 } temp_t;
 
+// Display state machine
 typedef enum {
 	DISPLAY_LOW,
 	DISPLAY_CURRENT,
@@ -37,13 +39,14 @@ typedef enum {
 
 
 /************************************************************************/
-/* @brief return threshold state for temperature						*/
+/* @brief Return threshold state for temperature						*/
+/* @param[out] state as temp_t											*/
 /************************************************************************/
 temp_t heater_status();
 
 
 /************************************************************************/
-/* @brief Display high temperature										*/
+/* @brief Display current temperature threshold							*/
 /************************************************************************/
 void thermometer_display_current();
 
@@ -55,25 +58,37 @@ void thermometer_display_high();
 
 
 /************************************************************************/
-/* @brief Display high temperature threshold 							*/
+/* @brief Print high temperature threshold 								*/
+/************************************************************************/
+void thermometer_high_threshold(char newValue[]);
+
+
+/************************************************************************/
+/* @brief Set high temperature threshold 								*/
 /************************************************************************/
 void thermometer_set_high_threshold(char newValue[]);
 
 
 /************************************************************************/
-/* @brief Display low temperature threshold 							*/
+/* @brief Print low temperature threshold 							*/
 /************************************************************************/
 void thermometer_low_threshold(char newValue[]);
 
 
 /************************************************************************/
-/* @brief value to display 												*/
+/* @brief Set low temperature threshold 								*/
+/************************************************************************/
+void thermometer_set_low_threshold(char newValue[]);
+
+
+/************************************************************************/
+/* @brief Value to display 												*/
 /************************************************************************/
 void thermometer_value_to_display(char value[]);
 
 
 /************************************************************************/
-/* @brief Display high temperature										*/
+/* @brief Display low temperature										*/
 /************************************************************************/
 void thermometer_display_low();
 
