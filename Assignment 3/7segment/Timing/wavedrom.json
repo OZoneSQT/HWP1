@@ -1,0 +1,19 @@
+{
+  signal: [
+    { name: 'CLK', wave: 'p.....|...' },
+    { name: 'MOSI', wave: 'xHxLxHxL', data: ['0xE0', '0x60', '0xFC', '0x00'] },
+    { name: 'SS', wave: '1...0....' }
+  ],
+  head: {
+    text: 'Timing Diagram for SPI Communication with 74HC595 Shift Register',
+    tick: 0.1
+  },
+  foot: {
+    text: 'CLK = SCK, MOSI = Master Out Slave In, SS = Slave Select',
+  },
+  config: {
+    hs: 200,
+    timescale: 2,
+    lane: 200
+  }
+}
