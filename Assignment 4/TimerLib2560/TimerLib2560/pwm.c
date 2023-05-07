@@ -189,7 +189,7 @@ void pwm_pulse(PWM_PIN pin, uint8_t percentage)
 }
 
 /*******************************************************************************/
-void pwm_percentage(PWM_PIN pin, uint16_t pulse_length_ms)
+void pwm_pulselength(PWM_PIN pin, uint16_t pulse_length_ms)
 {
 	init_pwm(pin, 100, pulse_length_ms);
 }
