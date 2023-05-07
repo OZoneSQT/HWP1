@@ -109,21 +109,21 @@ bool readInputPinStatusDebounce(Pin pin);
 /*																		*/
 /* @param[in] Pin pin													*/
 /************************************************************************/
-void SetOutputPinHigh(Pin pin);
+void setOutputPinHigh(Pin pin);
 
 /************************************************************************/
 /* @brief Set Digital IO pin low										*/
 /*																		*/
 /* @param[in] Pin pin													*/
 /************************************************************************/
-void SetOutputPinLow(Pin pin);
+void setOutputPinLow(Pin pin);
 
 /************************************************************************/
 /* @brief Toggle Digital IO pin high/low								*/
 /*																		*/
 /* @param[in] Pin pin													*/
 /************************************************************************/
-void ToggleOutputPin(Pin pin);
+void toggleOutputPin(Pin pin);
 
 
 /************************************************************************/

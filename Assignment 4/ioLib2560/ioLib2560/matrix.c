@@ -38,7 +38,7 @@ void matrix_init(Pin row1, Pin row2, Pin row3, Pin row4, Pin col1, Pin col2, Pin
 	for (uint8_t i = 0; i < NUM_ROWS; i++) 
 	{
 		initOutputPin(row_pins[i]);
-		SetOutputPinHigh(row_pins[i]);
+		setOutputPinHigh(row_pins[i]);
 	}
 
 	// Configure column pins as input and enable pull-up resistors
@@ -57,7 +57,7 @@ char matrix_read()
 	// Scan rows
 	for (uint8_t row = 0; row < NUM_ROWS; row++) 
 	{
-		SetOutputPinLow(row_pins[row]);
+		setOutputPinLow(row_pins[row]);
 
 		// Check columns for a pressed key
 		for (uint8_t col = 0; col < NUM_COLS; col++) 
@@ -69,7 +69,7 @@ char matrix_read()
 			}
 		}
 
-		SetOutputPinHigh(row_pins[row]);
+		setOutputPinHigh(row_pins[row]);
 	}
 
 	return key;

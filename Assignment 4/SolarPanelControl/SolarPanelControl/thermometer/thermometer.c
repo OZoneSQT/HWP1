@@ -20,7 +20,7 @@
 /*******************************************************************************/
 ISR(TIMER1_COMPA_vect)
 {
-	last = readAnalogPinUint(A_PIN15);
+	last = temperature_reader_read_float();
 }
 
 /*******************************************************************************/
@@ -120,8 +120,8 @@ void thermometer_value_to_display(char value[])
 /** Initialization of thermometer */
 void thermometer_init()
 {
+	temperature_reader_init();
 	init16BitTimer(TIMER1, 0, DELAY_S);
-	init10BitAnalogInputPin(A_PIN15);
 	segment_init(DELAY_MS);
 }
 

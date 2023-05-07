@@ -22,9 +22,9 @@ display_t state = DISPLAY_CURRENT;
 static void btn_temp_low()
 {
 	state = DISPLAY_LOW;
-	SetOutputPinHigh(LED1);
-	SetOutputPinLow(LED2);
-	SetOutputPinLow(LED3);
+	setOutputPinHigh(LED1);
+	setOutputPinLow(LED2);
+	setOutputPinLow(LED3);
 	thermometer_display_low();
 }
 
@@ -37,9 +37,9 @@ static void btn_temp_low()
 static void btn_temp_high()
 {
 	state = DISPLAY_HIGH;
-	SetOutputPinHigh(LED2);
-	SetOutputPinLow(LED1);
-	SetOutputPinLow(LED3);
+	setOutputPinHigh(LED2);
+	setOutputPinLow(LED1);
+	setOutputPinLow(LED3);
 	thermometer_display_high();
 }
 
@@ -49,9 +49,9 @@ static void btn_temp_high()
 static void btn_temp_current()
 {
 	state = DISPLAY_CURRENT;
-	SetOutputPinHigh(LED3);
-	SetOutputPinLow(LED1);
-	SetOutputPinLow(LED2);
+	setOutputPinHigh(LED3);
+	setOutputPinLow(LED1);
+	setOutputPinLow(LED2);
 	thermometer_display_current();
 }
 
@@ -65,13 +65,13 @@ static void btn_temp_current()
 // reached and counterclockwise when the t_low setpoint is reached.
 static void valve_open()
 {
-	SetOutputPinHigh(LED6);
+	setOutputPinHigh(LED6);
 	pwm_pulselength(OC5A, 2);
 }
 
 static void valve_closed()
 {
-	SetOutputPinLow(LED6);
+	setOutputPinLow(LED6);
 	pwm_pulselength(OC5A, 1);
 }
 
@@ -80,12 +80,12 @@ static void valve_closed()
 // is not (you do not connect a real pump)
 static void pump_open()
 {
-	SetOutputPinHigh(LED7);
+	setOutputPinHigh(LED7);
 }
 
 static void pump_closed()
 {
-	SetOutputPinLow(LED7);
+	setOutputPinLow(LED7);
 }
 
 /************************************************************************/
@@ -122,8 +122,8 @@ void solar_control_init()
 		12			OC4A		PH3			D_PIN57
 		14			OC4C		PH5			D_PIN59
 		16			ICP5		PL1			D_PIN71
-		
-	*/
+*/
+	
 	thermometer_init();
 	//matrix_init(D_PIN31, D_PIN53, D_PIN14, D_PIN60, D_PIN36, D_PIN70, D_PIN58, D_PIN72);	// 1-15
 	matrix_init(D_PIN15, D_PIN13, D_PIN12, D_PIN35, D_PIN37, D_PIN57, D_PIN59, D_PIN71);	// 2-16
@@ -150,41 +150,57 @@ void solar_control_run()
 	while (1)
 	{
 		char input = matrix_read();
-		
-		if(input != "\0")
+
+		if(input != '\0')
 		{
 			timeout = 5;
-			
+
 			while(timeout != 0)
 			{
 				char new[3] = {};
-					
+
 				for(uint8_t i = 0; i < 3; i++)
 				{
-					if(input == "*")
+					if(input == '*')
 					{
-						 btn_temp_current();
-						 timeout = 0;
+						btn_temp_current();
+						timeout = 0;
 					}
-					
-					if(input != "A" || input != "B" || input != "C" || input != "D")
+
+					if(input != 'A' || input != 'B' || input != 'C' || input != 'D')
 					{
 						new[i] = input;
 						thermometer_value_to_display(new);
 					}
-					
+
 					timeout = 5;
-					
-					if(input == "#")
+
+					if(input == '#')
 					{
-						thermometer_set_threshold(new);
+						if(state == DISPLAY_HIGH) 
+						{
+							thermometer_set_high_threshold(new);	
+						}
+						else if(state == DISPLAY_LOW)
+						{
+							thermometer_set_low_threshold(new);
+						}
+						
 						timeout = 0;
 					}
 				}
-				
-				if(matrix_read() == "#")
+
+				if(matrix_read() == '#')
 				{
-					thermometer_set_threshold(new);
+					if(state == DISPLAY_HIGH)
+					{
+						thermometer_set_high_threshold(new);
+					}
+					else if(state == DISPLAY_LOW)
+					{
+						thermometer_set_low_threshold(new);
+					}
+					
 					return;
 				}
 			}

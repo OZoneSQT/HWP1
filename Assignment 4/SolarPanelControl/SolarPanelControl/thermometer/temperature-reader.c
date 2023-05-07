@@ -41,16 +41,15 @@ static float convert_convertToKelvin(uint16_t adcValue)
 /** Initialization of temperature reader */
 void temperature_reader_init() 
 {
-	timer_init_8bit(DELAY_MS);	/** update display */
-	adc_init_10bit(ADCPIN);		/** Set 10 bit adc */
-	sei();						/** Enable global interrupts */
+	init8BitTimer(DELAY_MS);	/** update display */
+	init10BitAnalogInputPin(ADCPIN);		/** Set 10 bit adc */
 }
 
 /************************************************************************/
 /** Function to read float values  */
 float temperature_reader_read_float()
 {
-	return convert_convertToCelcius(adc_read(ADCPIN));
+	return convert_convertToCelcius(readAnalogPinUint(ADCPIN));
 }
 
 /************************************************************************/
