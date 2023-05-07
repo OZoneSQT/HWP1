@@ -44,6 +44,14 @@ void setOutputPinHigh(Pin pin)
 	{
 		PORTH |= (1 << (pin % 8));
 	}
+	else if (pin <= PK7)
+	{
+		PORTK |= (1 << (pin % 8));
+	}
+	else if (pin <= PL7)
+	{
+		PORTL |= (1 << (pin % 8));
+	}
 	else
 	{
 		return;
@@ -85,6 +93,14 @@ void setOutputPinLow(Pin pin)
 	else if (pin <= PH7)
 	{
 		PORTH &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PK7)
+	{
+		PORTK &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PL7)
+	{
+		PORTL &= ~(1 << (pin % 8));
 	}
 	else
 	{
@@ -128,6 +144,14 @@ void initOutputPin(Pin pin)
 	{
 		DDRH |= (1 << (pin % 8));
 	}
+	else if (pin <= PK7)
+	{
+		DDRK |= (1 << (pin % 8));
+	}
+	else if (pin <= PL7)
+	{
+		DDRL |= (1 << (pin % 8));
+	}
 	else
 	{
 		return;
@@ -170,6 +194,14 @@ void initInputPin(Pin pin)
 	else if (pin <= PH7) 
 	{
 		DDRH &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PK7)
+	{
+		DDRK &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PL7)
+	{
+		DDRL &= ~(1 << (pin % 8));
 	}
 	else
 	{
@@ -216,6 +248,14 @@ bool readInputPinStatus(Pin pin)
 	else if (pin <= PH7) 
 	{
 		result = PINH & (1 << (pin % 8));
+	}
+	else if (pin <= PK5)
+	{
+		result = PINK & (1 << (pin % 8));
+	}
+	else if (pin <= PL7)
+	{
+		result = PINL & (1 << (pin % 8));
 	}
 	
 	return result;
@@ -271,6 +311,14 @@ void toggleOutputPin(Pin pin)
 	else if (pin <= PH7) 
 	{
 		PORTH ^= (1 << (pin % 8));
+	}
+	else if (pin <= PK5)
+	{
+		PORTK ^= (1 << (pin % 8));
+	}
+	else if (pin <= PL7)
+	{
+		PORTL ^= (1 << (pin % 8));
 	}
 	else
 	{

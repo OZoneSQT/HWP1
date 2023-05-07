@@ -20,7 +20,14 @@ typedef enum {
 	HIGH
 	} temp_t;
 
+typedef enum {
+	DISPLAY_LOW,
+	DISPLAY_CURRENT,
+	DISPLAY_HIGH
+} display_t;
+
 uint8_t timeout = 0;
+display_t state = DISPLAY_CURRENT;
 
 /************************************************************************/
 // Pressing switch 1 change the numeric display to tlow
@@ -30,6 +37,7 @@ uint8_t timeout = 0;
 // cancel by pressing ‘*’
 static void btn_temp_low()
 {
+	state = DISPLAY_LOW;
 	SetOutputPinHigh(led1);
 	SetOutputPinLow(led2);
 	SetOutputPinLow(led3);
@@ -44,6 +52,7 @@ static void btn_temp_low()
 // cancel by pressing ‘*’
 static void btn_temp_high()
 {
+	state = DISPLAY_HIGH;
 	SetOutputPinHigh(led2);
 	SetOutputPinLow(led1);
 	SetOutputPinLow(led3);
@@ -52,8 +61,9 @@ static void btn_temp_high()
 /************************************************************************/
 // Pressing switch 3 change the numeric display to current
 // temperature. LED 3 turns on (1 and 2 off)
-static void btn_temp_high()
+static void btn_temp_current()
 {
+	state = DISPLAY_CURRENT;
 	SetOutputPinHigh(led3);
 	SetOutputPinLow(led1);
 	SetOutputPinLow(led2);
@@ -105,8 +115,33 @@ void return_to_deff()
 /************************************************************************/
 void solar_control_init()
 {
+	/*
+		J15 Mapping, for VIA Shield:
+		
+		J15 pin		Function	Port pin	Enum
+		1			TO			PD7			D_PIN31
+		3			OC0B		PG5			D_PIN53
+		5			OC1B		PB6			D_PIN14
+		7			OC2B		PH6			D_PIN60
+		9			OC3B		PE4			D_PIN36
+		11			ICP4		PL0			D_PIN70
+		13			OC4B		PH4			D_PIN58
+		15			T5			PL2			D_PIN72
+		
+		J15 pin		Function	Port pin	Enum
+		2			OC0A		PB7			D_PIN15
+		4			OC1A		PB5			D_PIN13
+		6			OC2A		PB4			D_PIN12
+		8			OC3A		PE3			D_PIN35
+		10			OC3C		PE5			D_PIN37
+		12			OC4A		PH3			D_PIN57
+		14			OC4C		PH5			D_PIN59
+		16			ICP5		PL1			D_PIN71
+		
+	*/
 	thermometer_init();
-	matrix_init();
+	//matrix_init(D_PIN31, D_PIN53, D_PIN14, D_PIN60, D_PIN36, D_PIN70, D_PIN58, D_PIN72);	// 1-15
+	matrix_init(D_PIN15, D_PIN13, D_PIN12, D_PIN35, D_PIN37, D_PIN57, D_PIN59, D_PIN71);	// 2-16
 	init16BitTimer(TIMER2,0,1);
 	
 	// init input
@@ -130,6 +165,11 @@ void solar_control_run()
 	
 	while (1)
 	{
+		if(matrix_read() != "\0")
+		{
+			
+		}
+		
 		if(readInputPinStatus(btn1))
 		{
 			btn_temp_low();
