@@ -127,7 +127,7 @@
     <Compile Include="analog.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="types.h">
+    <Compile Include="matrix.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="digital.c">

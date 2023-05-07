@@ -9,6 +9,90 @@
 
 
 /************************************************************************/
+// Set output pin high
+void setOutputPinHigh(Pin pin)
+{
+	if (pin <= PA7)
+	{
+		PORTA |= (1 << (pin % 8));
+	}
+	else if (pin <= PB7)
+	{
+		PORTB |= (1 << (pin % 8));
+	}
+	else if (pin <= PC7)
+	{
+		PORTC |= (1 << (pin % 8));
+	}
+	else if (pin <= PD7)
+	{
+		PORTD |= (1 << (pin % 8));
+	}
+	else if (pin <= PE7)
+	{
+		PORTE |= (1 << (pin % 8));
+	}
+	else if (pin <= PF7)
+	{
+		PORTF |= (1 << (pin % 8));
+	}
+	else if (pin <= PG5)
+	{
+		PORTG |= (1 << (pin % 8));
+	}
+	else if (pin <= PH7)
+	{
+		PORTH |= (1 << (pin % 8));
+	}
+	else
+	{
+		return;
+	}
+}
+
+/************************************************************************/
+// Set output pin low
+void setOutputPinLow(Pin pin)
+{
+	if (pin <= PA7)
+	{
+		PORTA &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PB7)
+	{
+		PORTB &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PC7)
+	{
+		PORTC &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PD7)
+	{
+		PORTD &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PE7)
+	{
+		PORTE &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PF7)
+	{
+		PORTF &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PG5)
+	{
+		PORTG &= ~(1 << (pin % 8));
+	}
+	else if (pin <= PH7)
+	{
+		PORTH &= ~(1 << (pin % 8));
+	}
+	else
+	{
+		return;
+	}
+}
+
+/************************************************************************/
 // Initialize output pin
 void initOutputPin(Pin pin) 
 {
@@ -99,7 +183,7 @@ void initInputPin(Pin pin)
 // Read input pin status
 bool readInputPinStatus(Pin pin) 
 {
-	uint8_t result = 0;
+	bool result = false;
 
 	if (pin <= PA7) 
 	{
@@ -133,94 +217,23 @@ bool readInputPinStatus(Pin pin)
 	{
 		result = PINH & (1 << (pin % 8));
 	}
-	else
-	{
-		return;
-	}
+	
+	return result;
 }
 
 /************************************************************************/
-// Set output pin high
-void setOutputPinHigh(Pin pin) 
+// Read input pin status, debounce protected
+bool readInputPinStatusDebounce(Pin pin)
 {
-	if (pin <= PA7) 
+	bool pressed = readInputPinStatus(pin);
+	
+	if (pressed) 
 	{
-		PORTA |= (1 << (pin % 8));
+		_delay_ms(DEBOUNCE_DELAY);
+		pressed = readInputPinStatus(pin);
 	}
-	else if (pin <= PB7) 
-	{
-		PORTB |= (1 << (pin % 8));
-	} 
-	else if (pin <= PC7) 
-	{
-		PORTC |= (1 << (pin % 8));
-	} 
-	else if (pin <= PD7) 
-	{
-		PORTD |= (1 << (pin % 8));
-	} 
-	else if (pin <= PE7) 
-	{
-		PORTE |= (1 << (pin % 8));
-	} 
-	else if (pin <= PF7) 
-	{
-		PORTF |= (1 << (pin % 8));
-	} 
-	else if (pin <= PG5) 
-	{
-		PORTG |= (1 << (pin % 8));
-	} 
-	else if (pin <= PH7) 
-	{
-		PORTH |= (1 << (pin % 8));
-	}
-	else
-	{
-		return;
-	}
-}
 
-/************************************************************************/
-// Set output pin low
-void setOutputPinLow(Pin pin) 
-{
-	if (pin <= PA7) 
-	{
-		PORTA &= ~(1 << (pin % 8));
-	} 
-	else if (pin <= PB7) 
-	{
-		PORTB &= ~(1 << (pin % 8));
-	} 
-	else if (pin <= PC7) 
-	{
-		PORTC &= ~(1 << (pin % 8));
-	} 
-	else if (pin <= PD7) 
-	{
-		PORTD &= ~(1 << (pin % 8));
-	} 
-	else if (pin <= PE7) 
-	{
-		PORTE &= ~(1 << (pin % 8));
-	} 
-	else if (pin <= PF7) 
-	{
-		PORTF &= ~(1 << (pin % 8));
-	} 
-	else if (pin <= PG5) 
-	{
-		PORTG &= ~(1 << (pin % 8));
-	} 
-	else if (pin <= PH7) 
-	{
-		PORTH &= ~(1 << (pin % 8));
-	}
-	else
-	{
-		return;
-	}
+	return pressed;
 }
 
 /************************************************************************/

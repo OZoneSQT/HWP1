@@ -11,6 +11,10 @@
 
 #pragma once
 
+#include "lib/ioLib2560.h"
+#include "lib/timerLib2560.h"
+#include "lib/comLib2560.h"
+#include "thermometer/thermometer.h"
 
 /************************************************************************/
 /* Requirements:														*/

@@ -14,7 +14,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include "../keys/keys.h"
 #include "../lib/timerLib2560.h"
 #include "../led/segment.h"
 #include "temperature-reader.h"
@@ -25,6 +24,36 @@
 /* Output voltage of the sensor is 10mV/°C and typically 750mV@25°C	   */
 /* aka: 740 mV = 24 C, 730 mV = 23C e.g.							   */
 /***********************************************************************/
+
+
+/************************************************************************/
+/* @brief return threshold state for temperature						*/
+/************************************************************************/
+temp_t heater_status();
+
+
+/************************************************************************/
+/* @brief Display high temperature										*/
+/************************************************************************/
+void thermometer_display_current();
+
+
+/************************************************************************/
+/* @brief Display high temperature										*/
+/************************************************************************/
+void thermometer_display_high();
+
+
+/************************************************************************/
+/* @brief Display high/low temperature threshold 						*/
+/************************************************************************/
+void thermometer_set_threshold(uint16_t newValue);
+
+
+/************************************************************************/
+/* @brief Display high temperature										*/
+/************************************************************************/
+void thermometer_display_low();
 
 
 /************************************************************************/
