@@ -50,8 +50,7 @@
 /*		1		1		0		f_osc/32								*/
 /*		1		1		1		f_osc/64								*/
 /************************************************************************/
-typedef enum Speed
-{
+typedef enum Speed {
 	SPI_OCS2,  /**< f_osc/2 */
 	SPI_OCS4,  /**< f_osc/4 */
 	SPI_OCS8,  /**< f_osc/8 */
@@ -73,36 +72,30 @@ typedef enum Speed
 /* 		Mode 0:	CPOL = 0                                                */
 /* 		Mode 3: CPOL = 1                                                */
 /************************************************************************/
-typedef enum Edge
-{
+typedef enum Edge {
 	SPI_SCLK_MODE_0_LEAD_RISE,   /**< CPHA = 0, CPOL = 0 */
 	SPI_SCLK_MODE_1_TRAIL_RISE,  /**< CPHA = 1, CPOL = 0 */
 	SPI_SCLK_MODE_2_LEAD_FALL,   /**< CPHA = 0, CPOL = 1 */
 	SPI_SCLK_MODE_3_TRAIL_FALL,  /**< CPHA = 1, CPOL = 1 */
 } spi_edge_t;
 
-
 /************************************************************************/
 /* @brief Set transfer format:				                            */
 /*	MSB sent first (DORD = 0)											*/
 /*	LSB sent first (DORD = 1)											*/
 /************************************************************************/
-typedef enum Format
-{
+typedef enum Format {
 	SPI_MSB_FIRST,   /**< DORD = 0, MSB sent first */
 	SPI_LSB_FIRST,   /**< DORD = 1, LSB sent first */
 } spi_format_t;
 
-
 /************************************************************************/
 /* @brief Set transfer mode: Master/Slave	                            */
 /************************************************************************/
-typedef enum Mode
-{
+typedef enum Mode {
 	SPI_MASTER,   /**< Master */
 	SPI_SLAVE,    /**< Slave */
 } spi_mode_t;
-
 
 /************************************************************************/
 /* @brief SPI Configuration Struct                                      */

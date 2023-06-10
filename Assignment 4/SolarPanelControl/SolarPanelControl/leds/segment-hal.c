@@ -33,7 +33,7 @@ static void updateSegments(uint16_t segment1, uint16_t segment2, uint16_t segmen
 /************************************************************************/
 /** Function to shift out the data from the segments array using the M74HC595 shift register. */
 /** The function takes the segments array as a parameter */
-static void shiftOutSegments(uint16_t segments[4])
+static void shiftOutSegments(uint16_t segments[3])
 {
 	/** Set SS pin low */
 	PORTB &= ~(1 << SS_SHIFT_REGISTER);

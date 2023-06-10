@@ -16,11 +16,11 @@ spi_t *spi_init(uint16_t *pin, ...)
 
 	/** Read optional arguments */
 	va_list args;
-	va_start(args, pin);
-	spi->speed = (spi_speed_t)va_arg(args, spi_speed_t);
-	spi->edge = (spi_edge_t)va_arg(args, spi_edge_t);
-	spi->format = (spi_format_t)va_arg(args, spi_format_t);
-	spi->mode = (spi_mode_t)va_arg(args, spi_mode_t);
+		va_start(args, pin);
+		spi->speed = (spi_speed_t)va_arg(args, spi_speed_t);
+		spi->edge = (spi_edge_t)va_arg(args, spi_edge_t);
+		spi->format = (spi_format_t)va_arg(args, spi_format_t);
+		spi->mode = (spi_mode_t)va_arg(args, spi_mode_t);
 	va_end(args);
 
 	/** Set SS pin */
